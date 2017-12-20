@@ -103,7 +103,6 @@ public class EntityAIRobotExtractItem extends EntityAIRobotBase {
 	 public boolean shouldContinueExecuting() {
 		getExtractInventories();
 		findExtractTarget();
-		SteampunkRevolutionMod.logger.log(Level.INFO, this.target);
 		if (this.target != null) {
 			 TileEntity e = world.getTileEntity(target.pos);
 			 if (e != null) {

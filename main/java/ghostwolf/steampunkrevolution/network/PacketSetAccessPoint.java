@@ -103,6 +103,12 @@ public class PacketSetAccessPoint implements IMessage {
 							robot.addFuelPoint(p,f);
 							PacketHandler.INSTANCE.sendTo(new PacketGetAccessPoints(robot.refuelPoints.size(), message.robotID, message.type, robot.refuelPoints) , playerEntity);
 							break;
+						case 3:
+							robot.setHomePosAndDistance(p, robot.getRange());
+							robot.setPosition(p.getX() + 0.5, p.getY() + 1.8, p.getZ() + 0.5);
+							
+						
+							break;
 						}
 	            	 }
 	             }

@@ -86,6 +86,10 @@ public class PacketGetAccessPoints implements IMessage {
 							case 2:
 								bot.refuelPoints = message.points;
 								break;
+							case 3:
+								bot.setHomePosAndDistance(message.points.get(0).pos, bot.getRange());
+								
+								break;
 							}
 		        			
 		        		}

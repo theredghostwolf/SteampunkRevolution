@@ -68,29 +68,25 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 	}
 	
 	public EntityRobot(World worldIn) {
-		super(worldIn);
-		
+		super(worldIn);	
+		setupAI(worldIn);
+	}
+	
+	public EntityRobot(World worldIn, BlockPos home) {
+			super(worldIn);
+			setupAI(worldIn);
+			if (home != null && home != BlockPos.ORIGIN) {
+				this.setHomePosAndDistance(home, this.getRange());
+			}		
+	}
+	
+	protected void setupAI (World worldIn) {
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIRobotExtractItem(this, worldIn));
 		this.tasks.addTask(1, new EntityAIRobotInsertItem(this, worldIn));
 		this.tasks.addTask(3, new EntityAIWander(this, 0.25));
 		this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 6));
 		this.tasks.addTask(5, new EntityAILookIdle(this));
-		
-	}
-	
-	public EntityRobot(World worldIn, BlockPos home) {
-			super(worldIn);
-			this.tasks.addTask(0, new EntityAISwimming(this));
-			this.tasks.addTask(1, new EntityAIRobotExtractItem(this, worldIn));
-			this.tasks.addTask(2, new EntityAIRobotInsertItem(this, worldIn));
-			this.tasks.addTask(3, new EntityAIWander(this, 0.25));
-			this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 6));
-			this.tasks.addTask(5, new EntityAILookIdle(this));
-		
-			if (home != null) {
-				this.setHomePosAndDistance(home, range);
-			}		
 	}
 	
     private ItemStackHandler ItemStackHandler = new ItemStackHandler(invSize) { };
@@ -111,17 +107,7 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 	
 	@Override
 	public float getMaximumHomeDistance() {
-			return range;
-	}
-	
-	//needs rework
-	public boolean invIsFull (IItemHandler inv) {
-		for (int i = 0; i < inv.getSlots(); i++) {
-			if (inv.getStackInSlot(i).isEmpty()) {
-				return false;
-			}
-		}
-		return true;
+			return getRange();
 	}
 	
 	public void addInsertPoint (BlockPos p, EnumFacing f) {
@@ -202,6 +188,9 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 		if (compound.hasKey("items")) {
 			this.ItemStackHandler.deserializeNBT(compound.getCompoundTag("items"));
 		}
+		if (compound.hasKey("homeX") && compound.hasKey("homeY") && compound.hasKey("homeZ")) {
+			this.setHomePosAndDistance(new BlockPos( compound.getInteger("homeX"), compound.getInteger("homeY"), compound.getInteger("homeZ") ), this.getRange()); 
+		}
 		super.readEntityFromNBT(compound);
 		
 	}
@@ -213,6 +202,12 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 		compound.setTag("extract", writeAccessPointListToNBT(new NBTTagCompound (), this.ExtractPoints));
 		compound.setTag("fuel", writeAccessPointListToNBT(new NBTTagCompound (), this.refuelPoints));
 		compound.setTag("items", this.ItemStackHandler.serializeNBT());
+		
+		BlockPos homepos = this.getHomePosition();
+		compound.setInteger("homeX", homepos.getX());
+		compound.setInteger("homeY", homepos.getY());
+		compound.setInteger("homeZ", homepos.getZ());
+		
 		super.writeEntityToNBT(compound);
 		
 	}
@@ -310,17 +305,28 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 
 	@Override
 	public void writeSpawnData(ByteBuf buffer) {
+		BlockPos pos = this.getHomePosition();
+		buffer.writeInt(pos.getX());
+		buffer.writeInt(pos.getY());
+		buffer.writeInt(pos.getZ());
+		
 		buffer.writeInt(this.ExtractPoints.size());
 		buffer.writeInt(this.InsertPoints.size());
 		buffer.writeInt(this.refuelPoints.size());
 		
 		buffer = accesspoint.writeAccessPointListToBuf(this.ExtractPoints, buffer);
 		buffer = accesspoint.writeAccessPointListToBuf(this.InsertPoints, buffer);
-		buffer =accesspoint.writeAccessPointListToBuf(this.refuelPoints, buffer);
+		buffer = accesspoint.writeAccessPointListToBuf(this.refuelPoints, buffer);
 	}
 
 	@Override
 	public void readSpawnData(ByteBuf buf) {
+		int x = buf.readInt();
+		int y = buf.readInt();
+		int z = buf.readInt();
+		
+		this.setHomePosAndDistance(new BlockPos(x,y,z), this.getRange());
+		
 		int size = buf.readInt();
 		int size2 = buf.readInt();
 		int size3 = buf.readInt();
@@ -367,10 +373,23 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 		ItemStackHandler = itemStackHandler;
 	}
 	
-@Override
-public boolean isAIDisabled() {
-	// TODO Auto-generated method stub
-	return false;
+	@Override
+	public boolean isAIDisabled() {
+		return false;
+	}
+
+	public int getRange() {
+		return range;
+	}
+
+	public void setRange(int range) {
+		this.range = range;
+	}
+	
+	public List<AccessPoint> getHomePosAsList () {
+		List<AccessPoint> l = new ArrayList<AccessPoint>();
+		l.add(new AccessPoint(this.getHomePosition(), EnumFacing.DOWN));
+		return l;
 	}
 	
 }

@@ -61,6 +61,9 @@ public class RenderWorldLastEventHandler {
 				renderBoxes(bot.refuelPoints, mc, evt, 0.01F, 1F, 0.01F, 0.5F, bot);
 				//fuel
 				break;
+			case 3:
+				renderHomePos(bot, mc, evt);
+				break;
 			}
 		  }
 	  }
@@ -77,7 +80,7 @@ public class RenderWorldLastEventHandler {
 						renderBoxes(bot.refuelPoints, mc, evt, 0.01F, 1F, 0.01F, 0.5F, bot);
 						renderBoxes(bot.ExtractPoints, mc, evt, 1, 0.01F, 0.01F, 0.5F, bot);
 						renderBoxes(bot.InsertPoints, mc, evt, 0.01F, 0.01F, 1, 0.5F, bot);
-						renderHomePos(bot);
+						renderHomePos(bot,mc, evt);
 				 }
 			 }
 			  
@@ -85,6 +88,30 @@ public class RenderWorldLastEventHandler {
 	  	}
 	  }
 	 }
+	
+	 private static void renderHomePos (EntityRobot robot, Minecraft mc, RenderWorldLastEvent evt) {
+		 BlockPos home = robot.getHomePosition();
+		if (home != null && home != BlockPos.ORIGIN) {	
+			Entity entity = mc.getRenderViewEntity();
+			//Interpolating everything back to 0,0,0. These are transforms you can find at RenderEntity class
+			double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double)evt.getPartialTicks();
+			double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double)evt.getPartialTicks();
+			double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double)evt.getPartialTicks();
+			//Apply 0-our transforms to set everything back to 0,0,0
+			Tessellator.getInstance().getBuffer().setTranslation(-d0, -d1, -d2);
+			GlStateManager.disableTexture2D();
+
+			GlStateManager.disableDepth();
+			GlStateManager.enableBlend();
+			renderBoxOutline(Tessellator.getInstance(), Tessellator.getInstance().getBuffer(), home.getX(), home.getY(), home.getZ(), home.getX() + 1, home.getY() + 1, home.getZ() + 1, 0.8F, 0.8F, 0.5F, 0.5F, 3);
+		 
+			Tessellator.getInstance().getBuffer().setTranslation(0, 0, 0);
+			GlStateManager.enableDepth();
+			GlStateManager.disableBlend();
+			GlStateManager.enableTexture2D();
+		}
+	 }
+	 
 	
 	private static void renderBoxes (List<AccessPoint> l, Minecraft mc, RenderWorldLastEvent evt, float red, float green, float blue, float alpha, EntityRobot bot ) {
 		if (l != null) {
@@ -97,12 +124,13 @@ public class RenderWorldLastEventHandler {
 			Tessellator.getInstance().getBuffer().setTranslation(-d0, -d1, -d2);
 			//Your render function which renders boxes at a desired position. In this example I just copy-pasted the one on TileEntityStructureRenderer
 			GlStateManager.disableTexture2D();
+
+			GlStateManager.disableDepth();
+			GlStateManager.enableBlend();
 			for (int i = 0; i < l.size(); i++) {
 			BlockPos p = l.get(i).pos;
 			
 			
-			GlStateManager.disableDepth();
-			GlStateManager.enableBlend();
 			renderBox(Tessellator.getInstance(), Tessellator.getInstance().getBuffer(), p.getX() - thickness, p.getY() - thickness, p.getZ() - thickness , p.getX() + 1 + thickness , p.getY() + 1 + thickness , p.getZ() + 1 + thickness, red, green, blue, alpha, l.get(i).facing);
 			//When you are done rendering all your boxes reset the offsets. We do not want everything that renders next to still be at 0,0,0 :)
 
@@ -208,13 +236,7 @@ public class RenderWorldLastEventHandler {
 		 t.draw();
 	 }
 	 
-	 private static void renderHomePos (EntityRobot robot) {
-		 BlockPos home = robot.getHomePosition();
-		if (home != null && home != BlockPos.ORIGIN) {	
-		 renderBoxOutline(Tessellator.getInstance(), Tessellator.getInstance().getBuffer(), home.getX() - thickness, home.getY() - thickness, home.getZ() - thickness, home.getX() + 1 + thickness, home.getY() + 1 + thickness, home.getZ() + 1 + thickness, 255,255,204, 0.5F, 3);
-		}
-	 }
-	 
+	
 	
 	
 

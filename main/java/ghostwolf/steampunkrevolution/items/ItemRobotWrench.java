@@ -36,7 +36,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemRobotWrench extends Item {
 	
 	private int mode = 0; 
-	private static final int maxMode = 2;
+	private static final int maxMode = 3;
 	
     public ItemRobotWrench() {
         setRegistryName("robotwrench");        
@@ -47,11 +47,14 @@ public class ItemRobotWrench extends Item {
     
     @SideOnly(Side.CLIENT)
     public void initModel () {
-    	 ModelResourceLocation insertModel = new ModelResourceLocation(getRegistryName() + "_insert", "inventory");
-         ModelResourceLocation extractModel = new ModelResourceLocation(getRegistryName() + "_extract", "inventory");
-         ModelResourceLocation fuelModel = new ModelResourceLocation(getRegistryName() + "_fuel", "inventory");
+    	 ModelResourceLocation insertModel = new ModelResourceLocation(getRegistryName(), "type=insert");
+         ModelResourceLocation extractModel = new ModelResourceLocation(getRegistryName(), "type=extract");
+         ModelResourceLocation fuelModel = new ModelResourceLocation(getRegistryName(), "type=fuel");
+         ModelResourceLocation homeModel = new ModelResourceLocation(getRegistryName(), "type=home");
+         ModelResourceLocation orangeModel = new ModelResourceLocation(getRegistryName(), "type=orange");
+         ModelResourceLocation purpleModel = new ModelResourceLocation(getRegistryName(), "type=purple");
          
-         ModelBakery.registerItemVariants(this, insertModel, extractModel, fuelModel);
+         ModelBakery.registerItemVariants(this, insertModel, extractModel, fuelModel, homeModel, orangeModel, purpleModel);
 
          ModelLoader.setCustomMeshDefinition(this, new ItemMeshDefinition() {
              @Override
@@ -60,8 +63,11 @@ public class ItemRobotWrench extends Item {
 				case 1:
 					return insertModel;
 				case 2:
-					
 					return fuelModel;
+				case 3:
+					return homeModel;
+				case 4:
+					return purpleModel;
 				default:
 					return extractModel;
 				}
@@ -131,6 +137,13 @@ public class ItemRobotWrench extends Item {
     				ItemStack stack = player.getHeldItem(hand);
     			 if	(getTagCompoundSafe(stack).hasKey("robotID")) {
     				 PacketHandler.INSTANCE.sendToServer(new PacketSetAccessPoint(pos, facing.ordinal(), getRobot(stack), getMode(stack)));
+    				 if (getMode(stack) == 3) {
+    					 Entity e = worldIn.getEntityByID(getRobot(stack));
+    					 if (e != null && e instanceof EntityRobot) {
+    						 EntityRobot bot = (EntityRobot) e;
+    						 bot.setHomePosAndDistance(pos, bot.getRange());
+    					 }
+    				 }
     			 }
     			
     			}
@@ -158,6 +171,8 @@ public class ItemRobotWrench extends Item {
 			return super.getItemStackDisplayName(stack) + " - Insert";
 		case 2:
 			return super.getItemStackDisplayName(stack) + " - Fuel";
+		case 3:
+			return super.getItemStackDisplayName(stack) + " - Home";
 		default:
 			return super.getItemStackDisplayName(stack);
 		}

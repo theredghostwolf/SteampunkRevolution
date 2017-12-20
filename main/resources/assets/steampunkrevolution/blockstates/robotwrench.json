@@ -1,0 +1,45 @@
+{
+	"forge_marker": 1,
+	"textures": {
+			"layer0": "steampunkrevolution:items/wrench/wrench_extract"
+		},
+	"defaults": {
+		"model": "steampunkrevolution:item_material"
+  	},
+	"variants": {
+		"inventory": [{}],
+		"normal": [{}],
+		"type": {
+			"extract": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/wrench/wrench_extract"
+				}
+			},
+			"insert": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/wrench/wrench_insert"
+				}
+			},
+			"fuel": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/wrench/wrench_fuel"
+				}
+			},
+			"home": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/wrench/wrench_home"
+				}
+			},
+			"orange": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/wrench/wrench_orange"
+				}
+			},
+			"purple": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/wrench/wrench_purple"
+				}
+			}
+		}
+	}
+}

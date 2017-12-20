@@ -97,14 +97,10 @@ public class EntityAIRobotInsertItem extends EntityAIRobotBase {
 	 public boolean shouldContinueExecuting() {
 		getInsertInventories();
 		findInsertTarget();
-		SteampunkRevolutionMod.logger.log(Level.INFO, this.target);
-
 		if (this.target != null) {
-			
 			 TileEntity e = world.getTileEntity(target.pos);
 			 if (e != null) {
 				 if (e.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, this.target.facing)) {
-					 //SteampunkRevolutionMod.logger.log(Level.INFO, "insert = true");
 					 return true;
 				 } else {
 					return false;
