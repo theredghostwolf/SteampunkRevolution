@@ -3,6 +3,9 @@ package ghostwolf.steampunkrevolution.entities.ai;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
+
+import ghostwolf.steampunkrevolution.SteampunkRevolutionMod;
 import ghostwolf.steampunkrevolution.entities.EntityRobot;
 import ghostwolf.steampunkrevolution.entities.ai.EntityAIRobotBase.Target;
 import ghostwolf.steampunkrevolution.util.AccessPoint;
@@ -45,8 +48,8 @@ public class EntityAIRobotInsertItem extends EntityAIRobotBase {
 		if (this.target != null) {
 			if (this.robot.getDistance(this.target.pos.getX(), this.target.pos.getY(), this.target.pos.getZ()) <= this.robot.interactRange) {
 				IItemHandler robotInv = this.robot.getInventory();
-				boolean transferedItem = false;
 				for (int i = 0; i < robotInv.getSlots(); i++) {
+					boolean transferedItem = false;
 					if (! robotInv.getStackInSlot(i).isEmpty()) {
 						ItemStack extracted = robotInv.extractItem(i, this.robot.getItemTransferSpeed(), true);
 						for (int j = 0; j < this.target.inv.getSlots(); j++) {
@@ -94,20 +97,34 @@ public class EntityAIRobotInsertItem extends EntityAIRobotBase {
 	 public boolean shouldContinueExecuting() {
 		getInsertInventories();
 		findInsertTarget();
-		 if (this.target == null) {
-			 return false;
-		 }
-		 TileEntity e = world.getTileEntity(target.pos);
-		 if (e == null) {
-			 return false;
-		 } else {
-			 if (! e.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, this.target.facing)) {
+		SteampunkRevolutionMod.logger.log(Level.INFO, this.target);
+
+		if (this.target != null) {
+			
+			 TileEntity e = world.getTileEntity(target.pos);
+			 if (e != null) {
+				 if (e.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, this.target.facing)) {
+					 //SteampunkRevolutionMod.logger.log(Level.INFO, "insert = true");
+					 return true;
+				 } else {
+					return false;
+				 }
+			 } else {
 				 return false;
 			 }
-		 }
+		} else {
+			return false;
+		}
 		 
 		 
-		 return true;
+
 	 }
+	
+	
+	
+	@Override
+	public boolean isInterruptible() {
+		return false;
+	}
 
 }

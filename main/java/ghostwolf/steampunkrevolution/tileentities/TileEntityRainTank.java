@@ -3,6 +3,8 @@ package ghostwolf.steampunkrevolution.tileentities;
 import ghostwolf.steampunkrevolution.Config;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -18,7 +20,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import scala.collection.parallel.BucketCombiner;
 
-public class TileEntityRainTank extends TileEntity implements ITickable, IFluidHandler {
+public class TileEntityRainTank extends TileEntity implements ITickable {
 	
 	private FluidTank tank;
 	private int rainStrengthAmp;
@@ -29,26 +31,6 @@ public class TileEntityRainTank extends TileEntity implements ITickable, IFluidH
 		this.rainStrengthAmp = Config.rainTankAmp;
 	}
 	
-	@Override
-	public IFluidTankProperties[] getTankProperties() {
-		return this.tank.getTankProperties();
-	}
-
-	@Override
-	public int fill(FluidStack resource, boolean doFill) {
-		return this.tank.fill(resource, doFill);
-	}
-
-	@Override
-	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		return this.tank.drain(resource, doDrain);
-	}
-
-	@Override
-	public FluidStack drain(int maxDrain, boolean doDrain) {
-		return this.tank.drain(maxDrain, doDrain);
-	}
-
 	@Override
 	public void update() {
 		if (! getWorld().isRemote) {
@@ -86,7 +68,6 @@ public class TileEntityRainTank extends TileEntity implements ITickable, IFluidH
     
     @Override
     public void readFromNBT(NBTTagCompound compound) {
-    	// TODO Auto-generated method stub
     	super.readFromNBT(compound);
     	this.tank.readFromNBT(compound);
     }
@@ -103,5 +84,26 @@ public class TileEntityRainTank extends TileEntity implements ITickable, IFluidH
 			return null;
 		}
 	}
+	
+	 	@Override
+	    public void handleUpdateTag(NBTTagCompound tag) {
+	    	readFromNBT(tag);
+	   	  }
+	    
+	    @Override
+	    public NBTTagCompound getUpdateTag() {
+	    	return writeToNBT(new NBTTagCompound());
+	    }
+	    
+	    @Override
+	    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+	    	super.onDataPacket(net, pkt);
+	    	handleUpdateTag(pkt.getNbtCompound());
+	    }
+	 
+	    @Override
+	    public SPacketUpdateTileEntity getUpdatePacket() {
+	         return new SPacketUpdateTileEntity(getPos(), 1, getUpdateTag());
+	    }
 
 }

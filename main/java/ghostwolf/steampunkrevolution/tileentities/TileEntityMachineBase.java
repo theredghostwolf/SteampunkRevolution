@@ -9,6 +9,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumParticleTypes;
@@ -188,6 +191,27 @@ public class TileEntityMachineBase extends TileEntity implements ITickable {
 				}
 			}
 		}
+		
+		 @Override
+		    public void handleUpdateTag(NBTTagCompound tag) {
+		    	readFromNBT(tag);
+		   	  }
+		    
+		    @Override
+		    public NBTTagCompound getUpdateTag() {
+		    	return writeToNBT(new NBTTagCompound());
+		    }
+		    
+		    @Override
+		    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		    	super.onDataPacket(net, pkt);
+		    	handleUpdateTag(pkt.getNbtCompound());
+		    }
+		 
+		    @Override
+		    public SPacketUpdateTileEntity getUpdatePacket() {
+		         return new SPacketUpdateTileEntity(getPos(), 1, getUpdateTag());
+		    }
 	
 
 }

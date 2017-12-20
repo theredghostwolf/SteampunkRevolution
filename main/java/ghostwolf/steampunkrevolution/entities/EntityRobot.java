@@ -37,7 +37,7 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class EntityRobot extends EntityCreature implements IEntityAdditionalSpawnData {
 	
-	public static final int interactRange = 3;
+	public static final int interactRange = 2;
 	private int range = 10;
 	private int invSize = 4;
 	private int itemTransferSpeed = 1;
@@ -69,9 +69,10 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 	
 	public EntityRobot(World worldIn) {
 		super(worldIn);
+		
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAIRobotExtractItem(this, worldIn));
-		this.tasks.addTask(2, new EntityAIRobotInsertItem(this, worldIn));
+		this.tasks.addTask(2, new EntityAIRobotExtractItem(this, worldIn));
+		this.tasks.addTask(1, new EntityAIRobotInsertItem(this, worldIn));
 		this.tasks.addTask(3, new EntityAIWander(this, 0.25));
 		this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 6));
 		this.tasks.addTask(5, new EntityAILookIdle(this));
@@ -364,6 +365,12 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 
 	public void setItemStackHandler(ItemStackHandler itemStackHandler) {
 		ItemStackHandler = itemStackHandler;
+	}
+	
+@Override
+public boolean isAIDisabled() {
+	// TODO Auto-generated method stub
+	return false;
 	}
 	
 }

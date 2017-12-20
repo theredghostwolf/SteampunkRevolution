@@ -2,12 +2,12 @@ tile.steampunkrevolution:boiler.name=Boiler
 tile.steampunkrevolution:oven.name=Steam Oven
 tile.steampunkrevolution:raintank.name=Rain barrel
 tile.steampunkrevolution:steamfurnace.name=Steam Furnace
-tile.steampunkrevolution:resinextractor.name=Resinextractor
+tile.steampunkrevolution:resinextractor.name=Resin Extractor
 tile.steampunkrevolution:resinsolidifier.name=Resin Solidifier
 tile.steampunkrevolution:loader.name=Loader
 tile.steampunkrevolution:unloader.name=Unloader
-tile.steampunkrevolution:fluidloader.name=Fluidloader
-tile.steampunkrevolution:fluidunloader.name=Fluidunloader
+tile.steampunkrevolution:fluidloader.name=Fluid Loader
+tile.steampunkrevolution:fluidunloader.name=Fluid Unloader
 
 tile.steampunkrevolution:ore.copper.name=Copper Ore
 tile.steampunkrevolution:ore.tin.name=Tin Ore

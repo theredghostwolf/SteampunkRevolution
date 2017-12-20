@@ -103,21 +103,28 @@ public class EntityAIRobotExtractItem extends EntityAIRobotBase {
 	 public boolean shouldContinueExecuting() {
 		getExtractInventories();
 		findExtractTarget();
-		 if (this.target == null) {
-			 return false;
-		 }
-		 TileEntity e = world.getTileEntity(target.pos);
-		 if (e == null) {
-			 return false;
-		 } else {
-			 if (! e.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, this.target.facing)) {
+		SteampunkRevolutionMod.logger.log(Level.INFO, this.target);
+		if (this.target != null) {
+			 TileEntity e = world.getTileEntity(target.pos);
+			 if (e != null) {
+				 if (e.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, this.target.facing)) {
+					 return true;
+				 } else {
+					return false;
+				 }
+			 } else {
 				 return false;
 			 }
-		 }
-		 
-		 
-		 return true;
+		} else {
+			return false;
+		}
+	
 	 }
+	
+	@Override
+	public boolean isInterruptible() {
+		return false;
+	}
 	
 	
 }
