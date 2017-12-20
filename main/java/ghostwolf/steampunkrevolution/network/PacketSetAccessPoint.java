@@ -106,8 +106,6 @@ public class PacketSetAccessPoint implements IMessage {
 						case 3:
 							robot.setHomePosAndDistance(p, robot.getRange());
 							robot.setPosition(p.getX() + 0.5, p.getY() + 1.8, p.getZ() + 0.5);
-							
-						
 							break;
 						}
 	            	 }

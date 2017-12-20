@@ -69,7 +69,7 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 	
 	public EntityRobot(World worldIn) {
 		super(worldIn);	
-		setupAI(worldIn);
+		setupAI(worldIn); 
 	}
 	
 	public EntityRobot(World worldIn, BlockPos home) {
@@ -386,10 +386,5 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 		this.range = range;
 	}
 	
-	public List<AccessPoint> getHomePosAsList () {
-		List<AccessPoint> l = new ArrayList<AccessPoint>();
-		l.add(new AccessPoint(this.getHomePosition(), EnumFacing.DOWN));
-		return l;
-	}
 	
 }

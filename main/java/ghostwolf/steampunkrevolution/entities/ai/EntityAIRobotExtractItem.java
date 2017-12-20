@@ -27,8 +27,11 @@ import net.minecraftforge.items.IItemHandler;
 
 public class EntityAIRobotExtractItem extends EntityAIRobotBase {
 	
+	private boolean isExtracting;
+	
 	public EntityAIRobotExtractItem (EntityRobot robot, World world) {
 		super(robot, world);
+		setMutexBits(1);
 	}
 	
 	@Override
@@ -51,6 +54,7 @@ public class EntityAIRobotExtractItem extends EntityAIRobotBase {
 	public void updateTask () {
 		if (this.target != null) {
 		if (this.robot.getDistance(this.target.pos.getX(), this.target.pos.getY(), this.target.pos.getZ()) <= this.robot.interactRange) {
+			this.isExtracting = true;
 			for (int i = 0; i < this.target.inv.getSlots(); i++) {
 				boolean transferedItem = false;
 				ItemStack stack = this.target.inv.getStackInSlot(i);
@@ -79,7 +83,7 @@ public class EntityAIRobotExtractItem extends EntityAIRobotBase {
 			}
 			
 		} else {
-			
+				this.isExtracting = false;
 				BlockPos p = findAirBlockNearTarget();
 				this.robot.getNavigator().tryMoveToXYZ(p.getX(),p.getY(),p.getZ(), 1F);
 			
@@ -97,6 +101,7 @@ public class EntityAIRobotExtractItem extends EntityAIRobotBase {
 	 public void resetTask()  {
 	     this.target = null;
 	     this.targetList = new ArrayList<Target>();
+	     this.isExtracting = false;
 	 }
 	 
 	@Override
@@ -122,7 +127,7 @@ public class EntityAIRobotExtractItem extends EntityAIRobotBase {
 	
 	@Override
 	public boolean isInterruptible() {
-		return false;
+		return !this.isExtracting;
 	}
 	
 	

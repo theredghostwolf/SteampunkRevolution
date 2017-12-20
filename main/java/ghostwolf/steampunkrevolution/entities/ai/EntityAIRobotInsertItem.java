@@ -20,8 +20,11 @@ import net.minecraftforge.items.IItemHandler;
 
 public class EntityAIRobotInsertItem extends EntityAIRobotBase {
 	
+	private boolean isInserting = false;
+	
 	public EntityAIRobotInsertItem (EntityRobot robot, World world) {
 		super(robot, world);
+		setMutexBits(1);
 	}
 	
 	@Override
@@ -29,11 +32,13 @@ public class EntityAIRobotInsertItem extends EntityAIRobotBase {
 		getInsertInventories();
 		IItemHandler robotInv = this.robot.getInventory();
 		if (invHelper.inventoryHasItem(robotInv)) {
+			
 			for (int i = 0; i < this.targetList.size(); i++) {
 				IItemHandler inv = this.targetList.get(i).inv;
 				for (int j = 0; j < robotInv.getSlots(); j++) {
-					if (! robotInv.getStackInSlot(i).isEmpty()) {
-						if (invHelper.InventoryHasRoomForItem(inv,robotInv.getStackInSlot(i) )) {
+					
+					if (! robotInv.getStackInSlot(j).isEmpty()) {
+						if (invHelper.InventoryHasRoomForItem(inv,robotInv.getStackInSlot(j) )) {
 							return true;
 						}
 					}
@@ -45,11 +50,16 @@ public class EntityAIRobotInsertItem extends EntityAIRobotBase {
 	}
 	
 	public void updateTask () {
+
+
 		if (this.target != null) {
+
 			if (this.robot.getDistance(this.target.pos.getX(), this.target.pos.getY(), this.target.pos.getZ()) <= this.robot.interactRange) {
+				this.isInserting = true;
 				IItemHandler robotInv = this.robot.getInventory();
+				boolean transferedItem = false;
 				for (int i = 0; i < robotInv.getSlots(); i++) {
-					boolean transferedItem = false;
+					
 					if (! robotInv.getStackInSlot(i).isEmpty()) {
 						ItemStack extracted = robotInv.extractItem(i, this.robot.getItemTransferSpeed(), true);
 						for (int j = 0; j < this.target.inv.getSlots(); j++) {
@@ -74,6 +84,7 @@ public class EntityAIRobotInsertItem extends EntityAIRobotBase {
 				}
 				
 			} else {
+				this.isInserting = false;
 				BlockPos p = findAirBlockNearTarget();
 				this.robot.getNavigator().tryMoveToXYZ(p.getX(),p.getY(),p.getZ(), 1F);
 				}
@@ -90,6 +101,7 @@ public class EntityAIRobotInsertItem extends EntityAIRobotBase {
 	@Override
 	 public void resetTask()  {
 	     this.target = null;
+	     this.isInserting = false;
 	     this.targetList = new ArrayList<Target>();
 	 }
 	
@@ -120,7 +132,8 @@ public class EntityAIRobotInsertItem extends EntityAIRobotBase {
 	
 	@Override
 	public boolean isInterruptible() {
-		return false;
+		return !this.isInserting;
+		
 	}
 
 }

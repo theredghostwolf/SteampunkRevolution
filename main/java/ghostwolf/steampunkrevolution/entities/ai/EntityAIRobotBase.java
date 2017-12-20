@@ -121,8 +121,8 @@ public class EntityAIRobotBase extends EntityAIBase {
 				boolean foundTarget = false;
 				IItemHandler inv = this.targetList.get(i).inv;
 				for (int j = 0; j < robotInv.getSlots(); j++) {
-					if (! robotInv.getStackInSlot(i).isEmpty()) {
-						if (invHelper.InventoryHasRoomForItem(inv,robotInv.getStackInSlot(i) )) {
+					if (! robotInv.getStackInSlot(j).isEmpty()) {
+						if (invHelper.InventoryHasRoomForItem(inv,robotInv.getStackInSlot(j) )) {
 							this.target = this.targetList.get(i);
 							foundTarget = true;
 							break;
