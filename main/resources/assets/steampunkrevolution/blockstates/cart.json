@@ -1,0 +1,20 @@
+{
+	"forge_marker": 1,
+	"textures": {
+			"layer0": "minecraft:items/minecart_normal"
+		},
+	"defaults": {
+		"model": "steampunkrevolution:item_material"
+  	},
+	"variants": {
+		"inventory": [{}],
+		"normal": [{}],
+		"type": {
+			"tankcart": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/cart_tank"
+				}
+			}
+		}
+	}
+}

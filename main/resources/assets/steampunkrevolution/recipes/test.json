@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "steampunkrevolution:raintank"
+  },
+  "pattern": [
+    "w w",
+    "w w",
+    "wsw"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "w": {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "s": {
+      "type": "forge:ore_dict",
+       "ore": "slabWood"
+    }
+  }
+}

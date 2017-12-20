@@ -1,0 +1,29 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "steampunkrevolution:boiler",
+    "textures": {
+		"front": "minecraft:blocks/coal_block"
+	}
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+"facing": {
+      "north": {"y": 90},
+      "south": {"y": 270},
+      "west": {},
+      "east": {"y": 180},
+      "up": {"x": -90},
+      "down": {"x": 90}
+    },
+    "enabled": {
+	"true": {
+		"textures": {
+			"front": "minecraft:blocks/magma"
+		}
+	},
+	"false": {}
+	}
+  }
+}

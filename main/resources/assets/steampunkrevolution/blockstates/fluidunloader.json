@@ -1,0 +1,27 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "steampunkrevolution:fluidunloader",
+    "textures": {
+		"front": "minecraft:blocks/coal_block"
+	}
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+    "facing": {
+      "north": {"y": 270},
+      "south": {"y": 90},
+      "west": {"y": 180},
+      "east": {},
+      "up": {"x": -90, "y": 270},
+      "down": {"x": 90}
+    },
+    "enabled": {
+	"true": {
+
+	},
+	"false": {}
+	}
+  }
+}

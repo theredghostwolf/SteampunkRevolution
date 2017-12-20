@@ -1,0 +1,10 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "steampunkrevolution:raintank"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}]
+  }
+}
