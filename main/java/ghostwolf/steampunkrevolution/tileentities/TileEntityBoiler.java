@@ -140,7 +140,7 @@ public class TileEntityBoiler extends TileEntityMachineBase {
 			this.inputTank.drain(new FluidStack(FluidRegistry.WATER, filled), true);
 			this.outputTank.fill(new FluidStack(FluidRegistry.getFluid("steam"), filled), true);
 			
-			this.createSmoke(1 + Math.round(filled / 15));
+			this.createSmoke(1 + Math.round(filled / 15), ((this.heat - this.conversionPoint) / (this.heatCap - this.conversionPoint)) * 0.3F);
 			TileEntityBoiler.this.markDirty();
 		}
 	}

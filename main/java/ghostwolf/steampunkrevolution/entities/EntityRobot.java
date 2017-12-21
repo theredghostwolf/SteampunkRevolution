@@ -27,6 +27,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -293,14 +294,17 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 	@Override
 	public void onEntityUpdate() {
 			super.onEntityUpdate();
-		if (invHelper.inventoryHasItem(getItemStackHandler())) {
-			for (int i = 0; i < getItemStackHandler().getSlots(); i++) {
-				if (! getItemStackHandler().getStackInSlot(i).isEmpty()) {
-					this.setHeldItem(getActiveHand(), getItemStackHandler().getStackInSlot(i));
+			
+		if (invHelper.inventoryHasItem(this.getInventory())) {
+			for (int i = 0; i < this.getInventory().getSlots(); i++) {
+				if (! this.getInventory().getStackInSlot(i).isEmpty()) {
+					this.setHeldItem(EnumHand.MAIN_HAND, this.getInventory().getStackInSlot(i));
+				
 					break;
 				}
 			}
 		}
+	
 	}
 
 	@Override

@@ -35,6 +35,12 @@ public class TileEntityMachineBase extends TileEntity implements ITickable {
 		}
 	}
 	
+	public void createSmoke (int amount, float speedup) {
+		if (Config.enableSmoke) {
+			PacketHandler.INSTANCE.sendToAll(new PacketSpawnParticle(this.pos.getX() + 0.5, this.pos.getY() + 1.1, this.pos.getZ() + 0.5, EnumParticleTypes.CLOUD.getParticleID(), amount, 0.3F,0F,speedup,0F));
+		}
+	}
+	
 	public boolean checkIfTankHasEnough (FluidTank tank, FluidStack resource) {
 		if (tank.getFluid() != null) {
 			if (tank.getFluid().isFluidEqual(resource)) {

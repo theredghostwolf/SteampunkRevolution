@@ -23,15 +23,22 @@ public class ClientProxy extends CommonProxy {
 	
 	   @Override
 	    public void preInit(FMLPreInitializationEvent e) {
-		   	ModEntities.initModels();
+		 
 	        super.preInit(e);
 	    }
+	   
+	   @Override
+	public void init(FMLInitializationEvent e) {
+		   ModEntities.initModels();
+		super.init(e);
+	}
 
 	    @SubscribeEvent
 	    public static void registerModels(ModelRegistryEvent event) {
 	    	SteampunkRevolutionMod.logger.log(Level.INFO, "initializing models");
 	 	   ModBlocks.initModels();
 	 	   ModItems.initModels();
+	 	  	
 	    }
 	    
 	

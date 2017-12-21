@@ -63,3 +63,5 @@ item.steampunkrevolution:material.amberCrystal.name=Amber Crystals
 
 item.steampunkrevolution:cart.tankCart.name=Tank Cart
 item.steampunkrevolution:brassgoggles.name=Brass Goggles
+
+entity.steampunkrevolution:robot.name=Clockwork Mechanoid
