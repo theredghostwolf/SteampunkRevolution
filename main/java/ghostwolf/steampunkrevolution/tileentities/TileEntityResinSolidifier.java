@@ -62,7 +62,9 @@ public class TileEntityResinSolidifier extends TileEntityMachineBase {
 		boolean isProcessing = false;
 		if (ss != null && rs != null) {
 			SolidifierRecipe recipe = SolidifierRecipeRegistry.findRecipeForStack(rs);
+	
 			if (recipe != null && ss.getFluid() == FluidRegistry.getFluid("steam") && ss.amount >= this.usage && checkIfSlotHasSpace(ItemStackHandler, 0, recipe.outputItemStack())) {
+				
 				isProcessing = true;
 				this.steamtank.drain(new FluidStack(FluidRegistry.getFluid("steam"), this.usage), true);
 				if (this.progress >= this.speed) {

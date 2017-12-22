@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ghostwolf.steampunkrevolution.entities.ai.EntityAIRobotExtractItem;
+import ghostwolf.steampunkrevolution.entities.ai.EntityAIRobotFuel;
 import ghostwolf.steampunkrevolution.entities.ai.EntityAIRobotInsertItem;
 import ghostwolf.steampunkrevolution.init.ModItems;
 import ghostwolf.steampunkrevolution.tileentities.TileEntitySteamOven;
@@ -31,6 +32,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -46,6 +50,14 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 	private float moveSpeed = 0.4F;
 	private int attackDamage = 5;
 	private int hp = 20;
+	private int fluidTransferRate = 100;
+	
+	private int tankCapacity = 8;
+	public FluidTank steamTank;
+	public float refuelTreshhold = 0.1F;
+	
+	private int damageTick = 0;
+	private int operateCost = 1;
 	
 	private BlockPos home;
 	
@@ -71,11 +83,13 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 	public EntityRobot(World worldIn) {
 		super(worldIn);	
 		setupAI(worldIn); 
+		initTank();
 	}
 	
 	public EntityRobot(World worldIn, BlockPos home) {
 			super(worldIn);
 			setupAI(worldIn);
+			initTank();
 			if (home != null && home != BlockPos.ORIGIN) {
 				this.setHomePosAndDistance(home, this.getRange());
 			}		
@@ -83,11 +97,16 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 	
 	protected void setupAI (World worldIn) {
 		this.tasks.addTask(0, new EntityAISwimming(this));
+		this.tasks.addTask(1, new EntityAIRobotFuel(this, worldIn));
 		this.tasks.addTask(2, new EntityAIRobotExtractItem(this, worldIn));
-		this.tasks.addTask(1, new EntityAIRobotInsertItem(this, worldIn));
-		this.tasks.addTask(3, new EntityAIWander(this, 0.25));
-		this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 6));
-		this.tasks.addTask(5, new EntityAILookIdle(this));
+		this.tasks.addTask(3, new EntityAIRobotInsertItem(this, worldIn));
+		this.tasks.addTask(4, new EntityAIWander(this, 0.25));
+		this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 6));
+		this.tasks.addTask(6, new EntityAILookIdle(this));
+	}
+	
+	protected void initTank () {
+		this.steamTank = new FluidTank (Fluid.BUCKET_VOLUME * this.tankCapacity);
 	}
 	
     private ItemStackHandler ItemStackHandler = new ItemStackHandler(invSize) { };
@@ -192,13 +211,17 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 		if (compound.hasKey("homeX") && compound.hasKey("homeY") && compound.hasKey("homeZ")) {
 			this.setHomePosAndDistance(new BlockPos( compound.getInteger("homeX"), compound.getInteger("homeY"), compound.getInteger("homeZ") ), this.getRange()); 
 		}
+		if (compound.hasKey("tank")) {
+			this.steamTank = steamTank.readFromNBT((NBTTagCompound) compound.getTag("tank"));
+		}
 		super.readEntityFromNBT(compound);
 		
 	}
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound compound) {
-		
+		compound.setTag("tank", this.steamTank.writeToNBT(new NBTTagCompound()));
+
 		compound.setTag("insert", writeAccessPointListToNBT(new NBTTagCompound (), this.InsertPoints));
 		compound.setTag("extract", writeAccessPointListToNBT(new NBTTagCompound (), this.ExtractPoints));
 		compound.setTag("fuel", writeAccessPointListToNBT(new NBTTagCompound (), this.refuelPoints));
@@ -293,8 +316,8 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 	
 	@Override
 	public void onEntityUpdate() {
-			super.onEntityUpdate();
-			
+		super.onEntityUpdate();
+		handleSteam();
 		if (invHelper.inventoryHasItem(this.getInventory())) {
 			for (int i = 0; i < this.getInventory().getSlots(); i++) {
 				if (! this.getInventory().getStackInSlot(i).isEmpty()) {
@@ -388,6 +411,31 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 
 	public void setRange(int range) {
 		this.range = range;
+	}
+
+	public int getFluidTransferRate() {
+		return fluidTransferRate;
+	}
+
+	public void setFluidTransferRate(int fluidTransferRate) {
+		this.fluidTransferRate = fluidTransferRate;
+	}
+	
+	private void handleSteam () {
+		if (this.isServerWorld()) {
+		FluidStack steam = this.steamTank.getFluid();
+		if (steam != null) {
+			this.steamTank.drain(this.operateCost, true);
+		} else {
+			if (this.damageTick <= 0) {
+				//damage
+				this.damageEntity(DamageSource.STARVE, 1);
+				this.damageTick = 20;
+			} else {
+				this.damageTick--;
+			}
+		}
+		}
 	}
 	
 	

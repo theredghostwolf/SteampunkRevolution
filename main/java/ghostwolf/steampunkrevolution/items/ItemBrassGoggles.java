@@ -23,6 +23,7 @@ public class ItemBrassGoggles extends ItemArmor {
 		super(ModItems.Brass_Goggles_armor, 0,EntityEquipmentSlot.HEAD);
 		setUnlocalizedName(Reference.MOD_ID + ":brassgoggles");
 		setRegistryName("brassgoggles");
+		setCreativeTab(ModItems.SteampunkItemsTab);
 	}
 	
 	@Override

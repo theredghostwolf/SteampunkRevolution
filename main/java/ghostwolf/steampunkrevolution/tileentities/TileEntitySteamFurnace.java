@@ -45,7 +45,7 @@ public class TileEntitySteamFurnace extends TileEntityMachineBase {
 		this.tank = new FluidTank(Fluid.BUCKET_VOLUME * 8);
 		
 		this.usage = Config.steamFurnaceUsage;
-		this.speed = Config.steamFurnaceUsage;
+		this.speed = Config.steamFurnaceSpeed;
 		this.progress = 0;
 		
 		this.isActive = false;

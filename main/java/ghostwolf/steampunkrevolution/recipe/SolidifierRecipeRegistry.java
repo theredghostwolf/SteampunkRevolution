@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.Level;
+
 import ghostwolf.steampunkrevolution.SteampunkRevolutionMod;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;

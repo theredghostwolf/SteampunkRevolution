@@ -72,11 +72,12 @@ import net.minecraftforge.fml.relauncher.Side;
 public class CommonProxy {
 	
 		public static Configuration config;
+		public static File configFolder;
 	
 	
 	    public void preInit(FMLPreInitializationEvent e) {
-	    	File directory = e.getModConfigurationDirectory();
-	        config = new Configuration(new File(directory.getPath(), "SteampunkRevolution.cfg"));
+	    	configFolder = new File(e.getSuggestedConfigurationFile().getParentFile(), Reference.MOD_ID);
+	        config = new Configuration(new File(configFolder, Reference.MOD_ID + ".cfg"), Reference.Version, true);
 	        Config.readConfig();
 			PacketHandler.registerMessages(Reference.MOD_ID.toLowerCase());
 			ModEntities.init();

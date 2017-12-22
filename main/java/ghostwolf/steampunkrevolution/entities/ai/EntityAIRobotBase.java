@@ -15,6 +15,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
@@ -26,8 +31,10 @@ public class EntityAIRobotBase extends EntityAIBase {
 	public World world;
 	
 	public List<Target> targetList;
+	public List<refuelTarget> refuelTargetList;
 	
 	public Target target;
+	public refuelTarget refuelTarget;
 	
 	public EntityAIRobotBase (EntityRobot robot, World world) {
 		this.robot = robot;
@@ -77,6 +84,28 @@ public class EntityAIRobotBase extends EntityAIBase {
 		});
 	}
 	
+	public void getRefuelTanks () {
+		this.refuelTargetList = new ArrayList<refuelTarget>();
+		for (int i = 0; i < this.robot.refuelPoints.size(); i++) {
+			AccessPoint p = this.robot.refuelPoints.get(i);
+			TileEntity te = this.world.getTileEntity(p.pos);
+			if (te != null && te.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, p.facing)) {
+				
+				IFluidHandler tank = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, p.facing);
+				if (tank != null) {
+					this.refuelTargetList.add(new refuelTarget(p.pos, te, tank, p.facing, this.robot.getDistance(p.pos.getX(), p.pos.getY(), p.pos.getZ())));
+				}
+			}
+		}
+		Collections.sort(this.refuelTargetList, new Comparator<refuelTarget>() {
+		    @Override
+		    public int compare(refuelTarget lhs, refuelTarget rhs) {
+		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+		        return lhs.distance < rhs.distance ? -1 : (lhs.distance > rhs.distance) ? 1 : 0;
+		    }
+		});
+	}
+	
 	public class Target {
 		
 		BlockPos pos;
@@ -89,6 +118,22 @@ public class EntityAIRobotBase extends EntityAIBase {
 			this.pos = pos;
 			this.te = te;
 			this.inv = inv;
+			this.facing = facing;
+			this.distance = distance;
+		}
+	}
+	
+	public class refuelTarget {
+		BlockPos pos;
+		TileEntity te;
+		IFluidHandler tank;
+		EnumFacing facing;
+		double distance;
+		
+		public refuelTarget (BlockPos pos, TileEntity te, IFluidHandler tank, EnumFacing facing, double distance) {
+			this.pos = pos;
+			this.te = te;
+			this.tank = tank;
 			this.facing = facing;
 			this.distance = distance;
 		}
@@ -136,6 +181,16 @@ public class EntityAIRobotBase extends EntityAIBase {
 		}
 	}
 	
+	public void findRefuelTarget () {
+		this.refuelTarget = null;
+		for (int i = 0; i < this.refuelTargetList.size(); i++) {
+			IFluidHandler t = this.refuelTargetList.get(i).tank;
+			if (t.drain(new FluidStack(FluidRegistry.getFluid("steam"), this.robot.getFluidTransferRate()), false).amount > 0) {
+					this.refuelTarget = this.refuelTargetList.get(i);
+			}
+		}
+	}
+	
 	public BlockPos findAirBlockNearTarget () {
 		if (this.target != null) {
 			List<BlockPos> airblocks = new ArrayList<BlockPos>();
@@ -150,6 +205,29 @@ public class EntityAIRobotBase extends EntityAIBase {
 			} 
 			if (airblocks.isEmpty()) {
 				return this.target.pos;
+			} else {
+				Random rand = new Random();
+				return airblocks.get(rand.nextInt(airblocks.size()));
+			}
+			
+		}
+		return null;
+	}
+	
+	public BlockPos findAirBlockNearRefuelTarget () {
+		if (this.refuelTarget != null) {
+			List<BlockPos> airblocks = new ArrayList<BlockPos>();
+			if (this.world.isAirBlock(this.refuelTarget.pos.north())) {
+				airblocks.add(this.refuelTarget.pos.north());
+			} if (this.world.isAirBlock(this.refuelTarget.pos.south())) {
+				airblocks.add(this.refuelTarget.pos.south());
+			}  if (this.world.isAirBlock(this.refuelTarget.pos.west())) {
+				airblocks.add(this.refuelTarget.pos.west());
+			}  if (this.world.isAirBlock(this.refuelTarget.pos.east())) {
+				airblocks.add(this.refuelTarget.pos.east());
+			} 
+			if (airblocks.isEmpty()) {
+				return this.refuelTarget.pos;
 			} else {
 				Random rand = new Random();
 				return airblocks.get(rand.nextInt(airblocks.size()));
