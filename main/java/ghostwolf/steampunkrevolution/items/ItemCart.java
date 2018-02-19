@@ -5,6 +5,7 @@ import ghostwolf.steampunkrevolution.enums.EnumCarts;
 import ghostwolf.steampunkrevolution.init.ModItems;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -45,7 +46,9 @@ public class ItemCart extends Item {
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
 	if (! worldIn.isRemote) {
-		worldIn.spawnEntity(EnumCarts.values()[ player.getHeldItem(hand).getMetadata()].getCart(worldIn, hitX, hitY, hitZ));
+		EntityMinecart c = EnumCarts.values()[ player.getHeldItem(hand).getMetadata()].getCart(worldIn, pos.getX(), pos.getY(), pos.getZ());
+		c.setPosition(pos.getX(), pos.getY() + 1.2, pos.getZ());
+		worldIn.spawnEntity(c);
 		player.getHeldItem(hand).shrink(1);
 		}
 		return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);

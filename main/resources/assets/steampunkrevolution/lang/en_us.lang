@@ -9,6 +9,9 @@ tile.steampunkrevolution:unloader.name=Unloader
 tile.steampunkrevolution:fluidloader.name=Fluid Loader
 tile.steampunkrevolution:fluidunloader.name=Fluid Unloader
 
+tile.steampunkrevolution:pedestal.name=Pedestal
+tile.steampunkrevolution:altar.name=Altar
+
 tile.steampunkrevolution:ore.copper.name=Copper Ore
 tile.steampunkrevolution:ore.tin.name=Tin Ore
 tile.steampunkrevolution:ore.zinc.name=Zinc Ore
@@ -17,45 +20,127 @@ tile.steampunkrevolution:ore.silver.name=Silver Ore
 tile.steampunkrevolution:ore.tungsten.name=Tungsten Ore
 tile.steampunkrevolution:ore.titanium.name=Titanium Ore
 
+tile.steampunkrevolution:metalBlock.copper.name=Copper Block
+tile.steampunkrevolution:metalBlock.tin.name=Tin Block
+tile.steampunkrevolution:metalBlock.lead.name=Lead Block
+tile.steampunkrevolution:metalBlock.zinc.name=Zinc Block
+tile.steampunkrevolution:metalBlock.silver.name=Silver Block
+tile.steampunkrevolution:metalBlock.titanium.name=Titanium Block
+tile.steampunkrevolution:metalBlock.tungsten.name=Tungsten Block
+
+tile.steampunkrevolution:metalBlock.brass.name=Brass Block
+tile.steampunkrevolution:metalBlock.bronze.name=Bronze Block
+tile.steampunkrevolution:metalBlock.steel.name=Steel Block
+tile.steampunkrevolution:metalBlock.electrum.name=Electrum Block
+tile.steampunkrevolution:metalBlock.blacksteel.name=Blacksteel Block
+
 itemGroup.SteampunkItemsTab=Steampunk Revolution
 
 item.steampunkrevolution:robotwrench.name=Mechanoid Wrench
 
-item.steampunkrevolution:material.ingotCopper.name=Copper Ingot
-item.steampunkrevolution:material.ingotTin.name=Tin Ingot
-item.steampunkrevolution:material.ingotZinc.name=Zinc Ingot
-item.steampunkrevolution:material.ingotSilver.name=Silver Ingot
-item.steampunkrevolution:material.ingotLead.name=Lead Ingot
-item.steampunkrevolution:material.ingotTungsten.name=Tungsten Ingot
-item.steampunkrevolution:material.ingotTitanium.name=Titanium Ingot
+item.steampunkrevolution:metal.gearcopper.name=Copper Gear
+item.steampunkrevolution:metal.geartin.name=Tin Gear
+item.steampunkrevolution:metal.gearlead.name=Lead Gear
+item.steampunkrevolution:metal.gearsilver.name=Silver Gear
+item.steampunkrevolution:metal.geartitanium.name=Titanium Gear
+item.steampunkrevolution:metal.geartungsten.name=Tungsten Gear
+item.steampunkrevolution:metal.gearzinc.name=Zinc Gear
+item.steampunkrevolution:metal.gearbrass.name=Brass Gear
+item.steampunkrevolution:metal.gearbronze.name=Bronze Gear
+item.steampunkrevolution:metal.gearsteel.name=Steel Gear
+item.steampunkrevolution:metal.gearelectrum.name=Electrum Gear
+item.steampunkrevolution:metal.gearblacksteel.name=Blacksteel Gear
 
-item.steampunkrevolution:material.ingotBrass.name=Brass Ingot
-item.steampunkrevolution:material.ingotSteel.name=Steel Ingot
-item.steampunkrevolution:material.ingotBronze.name=Bronze Ingot
-item.steampunkrevolution:material.ingotElectrum.name=Electrum Ingot
-item.steampunkrevolution:material.ingotBlacksteel.name=Blacksteel Ingot
+item.steampunkrevolution:metal.stickcopper.name=Copper Stick
+item.steampunkrevolution:metal.sticktin.name=Tin Stick
+item.steampunkrevolution:metal.sticklead.name=Lead Stick
+item.steampunkrevolution:metal.sticksilver.name=Silver Stick
+item.steampunkrevolution:metal.sticktitanium.name=Titanium Stick
+item.steampunkrevolution:metal.sticktungsten.name=Tungsten Stick
+item.steampunkrevolution:metal.stickzinc.name=Zinc Stick
+item.steampunkrevolution:metal.stickbrass.name=Brass Stick
+item.steampunkrevolution:metal.stickbronze.name=Bronze Stick
+item.steampunkrevolution:metal.sticksteel.name=Steel Stick
+item.steampunkrevolution:metal.stickelectrum.name=Electrum Stick
+item.steampunkrevolution:metal.stickblacksteel.name=Blacksteel Stick
 
-item.steampunkrevolution:material.dustCopper.name=Copper Dust
-item.steampunkrevolution:material.dustTin.name=Tin Dust
-item.steampunkrevolution:material.dustZinc.name=Zinc Dust
-item.steampunkrevolution:material.dustSilver.name=Silver Dust
-item.steampunkrevolution:material.dustLead.name=Lead Dust
-item.steampunkrevolution:material.dustTungsten.name=Tungsten Dust
-item.steampunkrevolution:material.dustTitanium.name=Titanium Dust
+item.steampunkrevolution:metal.tinygearcopper.name=Copper Tinygear
+item.steampunkrevolution:metal.tinygeartin.name=Tin Tinygear
+item.steampunkrevolution:metal.tinygearlead.name=Lead Tinygear
+item.steampunkrevolution:metal.tinygearsilver.name=Silver Tinygear
+item.steampunkrevolution:metal.tinygeartitanium.name=Titanium Tinygear
+item.steampunkrevolution:metal.tinygeartungsten.name=Tungsten Tinygear
+item.steampunkrevolution:metal.tinygearzinc.name=Zinc Tinygear
+item.steampunkrevolution:metal.tinygearbrass.name=Brass Tinygear
+item.steampunkrevolution:metal.tinygearbronze.name=Bronze Tinygear
+item.steampunkrevolution:metal.tinygearsteel.name=Steel Tinygear
+item.steampunkrevolution:metal.tinygearelectrum.name=Electrum Tinygear
+item.steampunkrevolution:metal.tinygearblacksteel.name=Blacksteel Tinygear
 
-item.steampunkrevolution:material.dustBrass.name=Brass Dust
-item.steampunkrevolution:material.dustSteel.name=Steel Dust
-item.steampunkrevolution:material.dustBronze.name=Bronze Dust
-item.steampunkrevolution:material.dustElectrum.name=Electrum Dust
-item.steampunkrevolution:material.dustBlacksteel.name=Blacksteel Dust
+item.steampunkrevolution:metal.ingotcopper.name=Copper Ingot
+item.steampunkrevolution:metal.ingottin.name=Tin Ingot
+item.steampunkrevolution:metal.ingotlead.name=Lead Ingot
+item.steampunkrevolution:metal.ingotsilver.name=Silver Ingot
+item.steampunkrevolution:metal.ingottitanium.name=Titanium Ingot
+item.steampunkrevolution:metal.ingottungsten.name=Tungsten Ingot
+item.steampunkrevolution:metal.ingotzinc.name=Zinc Ingot
+item.steampunkrevolution:metal.ingotbrass.name=Brass Ingot
+item.steampunkrevolution:metal.ingotbronze.name=Bronze Ingot
+item.steampunkrevolution:metal.ingotsteel.name=Steel Ingot
+item.steampunkrevolution:metal.ingotelectrum.name=Electrum Ingot
+item.steampunkrevolution:metal.ingotblacksteel.name=Blacksteel Ingot
 
-item.steampunkrevolution:material.chunkCopper.name=Copper Chunk
-item.steampunkrevolution:material.chunkTin.name=Tin Chunk
-item.steampunkrevolution:material.chunkZinc.name=Zinc Chunk
-item.steampunkrevolution:material.chunkSilver.name=Silver Chunk
-item.steampunkrevolution:material.chunkLead.name=Lead Chunk
-item.steampunkrevolution:material.chunkTungsten.name=Tungsten Chunk
-item.steampunkrevolution:material.chunkTitanium.name=Titanium Chunk
+item.steampunkrevolution:metal.nuggetcopper.name=Copper Nugget
+item.steampunkrevolution:metal.nuggettin.name=Tin Nugget
+item.steampunkrevolution:metal.nuggetlead.name=Lead Nugget
+item.steampunkrevolution:metal.nuggetsilver.name=Silver Nugget
+item.steampunkrevolution:metal.nuggettitanium.name=Titanium Nugget
+item.steampunkrevolution:metal.nuggettungsten.name=Tungsten Nugget
+item.steampunkrevolution:metal.nuggetzinc.name=Zinc Nugget
+item.steampunkrevolution:metal.nuggetbrass.name=Brass Nugget
+item.steampunkrevolution:metal.nuggetbronze.name=Bronze Nugget
+item.steampunkrevolution:metal.nuggetsteel.name=Steel Nugget
+item.steampunkrevolution:metal.nuggetelectrum.name=Electrum Nugget
+item.steampunkrevolution:metal.nuggetblacksteel.name=Blacksteel Nugget
+
+item.steampunkrevolution:metal.platecopper.name=Copper Plate
+item.steampunkrevolution:metal.platetin.name=Tin Plate
+item.steampunkrevolution:metal.platelead.name=Lead Plate
+item.steampunkrevolution:metal.platesilver.name=Silver Plate
+item.steampunkrevolution:metal.platetitanium.name=Titanium Plate
+item.steampunkrevolution:metal.platetungsten.name=Tungsten Plate
+item.steampunkrevolution:metal.platezinc.name=Zinc Plate
+item.steampunkrevolution:metal.platebrass.name=Brass Plate
+item.steampunkrevolution:metal.platebronze.name=Bronze Plate
+item.steampunkrevolution:metal.platesteel.name=Steel Plate
+item.steampunkrevolution:metal.plateelectrum.name=Electrum Plate
+item.steampunkrevolution:metal.plateblacksteel.name=Blacksteel Plate
+
+item.steampunkrevolution:metal.chunkscopper.name=Copper Chunks
+item.steampunkrevolution:metal.chunkstin.name=Tin Chunks
+item.steampunkrevolution:metal.chunkslead.name=Lead Chunks
+item.steampunkrevolution:metal.chunkssilver.name=Silver Chunks
+item.steampunkrevolution:metal.chunkstitanium.name=Titanium Chunks
+item.steampunkrevolution:metal.chunkstungsten.name=Tungsten Chunks
+item.steampunkrevolution:metal.chunkszinc.name=Zinc Chunks
+item.steampunkrevolution:metal.chunksbrass.name=Brass Chunks
+item.steampunkrevolution:metal.chunksbronze.name=Bronze Chunks
+item.steampunkrevolution:metal.chunkssteel.name=Steel Chunks
+item.steampunkrevolution:metal.chunkselectrum.name=Electrum Chunks
+item.steampunkrevolution:metal.chunksblacksteel.name=Blacksteel Chunks
+
+item.steampunkrevolution:metal.dustcopper.name=Copper Dust
+item.steampunkrevolution:metal.dusttin.name=Tin Dust
+item.steampunkrevolution:metal.dustlead.name=Lead Dust
+item.steampunkrevolution:metal.dustsilver.name=Silver Dust
+item.steampunkrevolution:metal.dusttitanium.name=Titanium Dust
+item.steampunkrevolution:metal.dusttungsten.name=Tungsten Dust
+item.steampunkrevolution:metal.dustzinc.name=Zinc Dust
+item.steampunkrevolution:metal.dustbrass.name=Brass Dust
+item.steampunkrevolution:metal.dustbronze.name=Bronze Dust
+item.steampunkrevolution:metal.duststeel.name=Steel Dust
+item.steampunkrevolution:metal.dustelectrum.name=Electrum Dust
+item.steampunkrevolution:metal.dustblacksteel.name=Blacksteel Dust
 
 item.steampunkrevolution:material.steamBowl.name=Steambowl
 item.steampunkrevolution:material.driedResin.name=Dried Resin
@@ -65,3 +150,16 @@ item.steampunkrevolution:cart.tankCart.name=Tank Cart
 item.steampunkrevolution:brassgoggles.name=Brass Goggles
 
 entity.steampunkrevolution:robot.name=Clockwork Mechanoid
+entity.steampunkrevolution:kabaneri.name=Kabaneri
+
+item.steampunkrevolution:mechanoidpart.kabanericore.name=Kabaneri Core
+item.steampunkrevolution:mechanoidpart.copperleg.name=Copper Leg
+item.steampunkrevolution:mechanoidpart.copperarm.name=Copper Arm
+item.steampunkrevolution:mechanoidpart.copperhead.name=Copper Head
+item.steampunkrevolution:mechanoidpart.basicfueltank.name=Basic Fueltank
+item.steampunkrevolution:mechanoidpart.basicstorage.name=Basic Storage
+item.steampunkrevolution:mechanoidpart.basicsteamengine.name=Basic Steamengine
+
+item.steampunkrevolution:mechanoidchassis.copperchassis.name=Copper Chassis
+
+item.steampunkrevolution:mechanoid.name=Clockwork Mechanoid

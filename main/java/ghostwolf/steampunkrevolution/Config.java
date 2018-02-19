@@ -11,11 +11,13 @@ public class Config {
     private static final String category_machines = "machines";
     private static final String category_mechanoids = "mechanoids";
     private static final String category_rails = "rails";
+    private static final String category_ores = "ores";
 
     // This values below you can access elsewhere in your mod:
     
     //general stuff
     public static boolean enableSmoke = true;
+    public static int smokeRenderRange = 40;
     
     //boiler
     public static float boilerFuelAmp = 0.25F;
@@ -57,6 +59,53 @@ public class Config {
     public static int tankcartLoaderSpeed = 100;
     public static int tankcartUnloaderSpeed = 100;
     
+    //altar
+    public static int pedestalRange = 7;
+    public static int pedestalHeightRange = 3;
+    
+    //ores
+    public static int CopperMinVein = 3;
+    public static int CopperMaxVein = 6;
+    public static int CopperMinYGen = 30;
+    public static int CopperMaxYGen = 70;
+    public static int CopperSpawnChance = 15;
+    
+    public static int TinMinVein = 3;
+    public static int TinMaxVein = 6;
+    public static int TinMinYGen = 30;
+    public static int TinMaxYGen = 60;
+    public static int TinSpawnChance = 15;
+    
+    public static int LeadMinVein = 2;
+    public static int LeadMaxVein = 6;
+    public static int LeadMinYGen = 20;
+    public static int LeadMaxYGen = 50;
+    public static int LeadSpawnChance = 15;
+    
+    public static int ZincMinVein = 2;
+    public static int ZincMaxVein = 4;
+    public static int ZincMinYGen = 0;
+    public static int ZincMaxYGen = 45;
+    public static int ZincSpawnChance = 13;
+    
+    public static int SilverMinVein = 2;
+    public static int SilverMaxVein = 4;
+    public static int SilverMinYGen = 0;
+    public static int SilverMaxYGen = 40;
+    public static int SilverSpawnChance = 11;
+    
+    public static int TitaniumMinVein = 1;
+    public static int TitaniumMaxVein = 3;
+    public static int TitaniumMinYGen = 0;
+    public static int TitaniumMaxYGen = 30;
+    public static int TitaniumSpawnChance = 8;
+    
+    public static int TungstenMinVein = 1;
+    public static int TungstenMaxVein = 3;
+    public static int TungstenMinYGen = 0;
+    public static int TungstenMaxYGen = 30;
+    public static int TungstenSpawnChance = 8;
+    
     // Call this from CommonProxy.preInit(). It will create our config if it doesn't
     // exist yet and read the values if it does exist.
     public static void readConfig() {
@@ -67,6 +116,7 @@ public class Config {
             initBoilerConfig(cfg);
             initMachineConfig(cfg);
             initMechanoidConfig(cfg);
+            initOreConfig(cfg);
         } catch (Exception e1) {
             //error
         } finally {
@@ -79,6 +129,7 @@ public class Config {
     private static void initGeneralConfig(Configuration cfg) {
         cfg.addCustomCategoryComment(category_general, "General configuration");
         enableSmoke = cfg.getBoolean("enableSmoke", category_general, enableSmoke, "when set to true the machines will create smoke particles when active");
+        smokeRenderRange = cfg.getInt("smokeRenderRange", category_general, smokeRenderRange, 0, 200, "range of which the player has to be near an entity or tile entity before smoke particles start spawning");
         
         rainTankAmp = cfg.getInt("rainbarrelRainStrengthAmp", category_general, rainTankAmp, 0, 100000, "amount the raining strength gets multiplied by to generate water while raining (rainstrength is between 0.2 and 1)");
         rainTankBuckets = cfg.getInt("rainbarrelBuckets", category_general, rainTankBuckets, 1, 1000, "amount of buckets the rainbarrel can hold");
@@ -127,8 +178,76 @@ public class Config {
         resinSolidifierSpeed = cfg.getInt("resinSolidifierSpeed", category_machines, resinSolidifierSpeed, 0, 1000, "amount of ticks it takes for the solidifier to process");
         resinSolidifierUsage = cfg.getInt("resinSolidifierUsage", category_machines, resinSolidifierUsage, 0, 10000, "amount of steam/tick the resinsolidifier uses");
         resinSolidifierConversionRate = cfg.getInt("resinSolidifierConversionRate", category_machines, resinSolidifierConversionRate, 0, 10000, "amount of resin it takes for the solidifier to create a single item");
+         
+        pedestalRange = cfg.getInt("pedestalRange", category_machines, pedestalRange, 1, 20, "range within the altar detects pedestals, on the X and Z axis");
+        pedestalHeightRange = cfg.getInt("pedestalHeightRange", category_machines, pedestalHeightRange, 0, 10, "range within the altar detects pedestals, on the Y axis");
+    }
+    
+    private static void initOreConfig(Configuration cfg) {
+        cfg.addCustomCategoryComment(category_ores, "Ore generation");
         
+        //copper
+        CopperMinVein = cfg.getInt("CopperMinVeinSize", category_ores, CopperMinVein, 0, 1000, "minimum vein size");
+        CopperMaxVein = cfg.getInt("CopperMaxVein", category_ores, CopperMaxVein, 0, 1000, "maximum vein size");
         
+        CopperMinYGen = cfg.getInt("CopperMinYGen", category_ores, CopperMinYGen, 0, 255, "minimum Y Ore can spawn at");
+        CopperMaxYGen = cfg.getInt("CopperMaxYGen", category_ores, CopperMaxYGen, 0, 255, "maximum Y Ore can spawn at");
+        
+        CopperSpawnChance = cfg.getInt("CopperSpawnChance", category_ores, CopperSpawnChance, 0, 1000, "Chance ore has to spawn");
+        
+        //tin
+        TinMinVein = cfg.getInt("TinMinVeinSize", category_ores, TinMinVein, 0, 1000, "minimum vein size");
+        TinMaxVein = cfg.getInt("TinMaxVein", category_ores, TinMaxVein, 0, 1000, "maximum vein size");
+        
+        TinMinYGen = cfg.getInt("TinMinYGen", category_ores, TinMinYGen, 0, 255, "minimum Y Ore can spawn at");
+        TinMaxYGen = cfg.getInt("TinMaxYGen", category_ores, TinMaxYGen, 0, 255, "maximum Y Ore can spawn at");
+        
+        TinSpawnChance = cfg.getInt("TinSpawnChance", category_ores, TinSpawnChance, 0, 1000, "Chance ore has to spawn");
+        
+        //lead
+        LeadMinVein = cfg.getInt("LeadMinVeinSize", category_ores, LeadMinVein, 0, 1000, "minimum vein size");
+        LeadMaxVein = cfg.getInt("LeadMaxVein", category_ores, LeadMaxVein, 0, 1000, "maximum vein size");
+        
+        LeadMinYGen = cfg.getInt("LeadMinYGen", category_ores, LeadMinYGen, 0, 255, "minimum Y Ore can spawn at");
+        LeadMaxYGen = cfg.getInt("LeadMaxYGen", category_ores, LeadMaxYGen, 0, 255, "maximum Y Ore can spawn at");
+        
+        LeadSpawnChance = cfg.getInt("LeadSpawnChance", category_ores, LeadSpawnChance, 0, 1000, "Chance ore has to spawn");
+        
+        //zinc
+        ZincMinVein = cfg.getInt("ZincMinVeinSize", category_ores, ZincMinVein, 0, 1000, "minimum vein size");
+        ZincMaxVein = cfg.getInt("ZincMaxVein", category_ores, ZincMaxVein, 0, 1000, "maximum vein size");
+        
+        ZincMinYGen = cfg.getInt("ZincMinYGen", category_ores, ZincMinYGen, 0, 255, "minimum Y Ore can spawn at");
+        ZincMaxYGen = cfg.getInt("ZincMaxYGen", category_ores, ZincMaxYGen, 0, 255, "maximum Y Ore can spawn at");
+        
+        ZincSpawnChance = cfg.getInt("ZincSpawnChance", category_ores, ZincSpawnChance, 0, 1000, "Chance ore has to spawn");
+        
+        //silver
+        SilverMinVein = cfg.getInt("SilverMinVeinSize", category_ores, SilverMinVein, 0, 1000, "minimum vein size");
+        SilverMaxVein = cfg.getInt("SilverMaxVein", category_ores, SilverMaxVein, 0, 1000, "maximum vein size");
+        
+        SilverMinYGen = cfg.getInt("SilverMinYGen", category_ores, SilverMinYGen, 0, 255, "minimum Y Ore can spawn at");
+        SilverMaxYGen = cfg.getInt("SilverMaxYGen", category_ores, SilverMaxYGen, 0, 255, "maximum Y Ore can spawn at");
+        
+        SilverSpawnChance = cfg.getInt("SilverSpawnChance", category_ores, SilverSpawnChance, 0, 1000, "Chance ore has to spawn");
+        
+        //titanium
+        TitaniumMinVein = cfg.getInt("TitaniumMinVeinSize", category_ores, TitaniumMinVein, 0, 1000, "minimum vein size");
+        TitaniumMaxVein = cfg.getInt("TitaniumMaxVein", category_ores, TitaniumMaxVein, 0, 1000, "maximum vein size");
+        
+        TitaniumMinYGen = cfg.getInt("TitaniumMinYGen", category_ores, TitaniumMinYGen, 0, 255, "minimum Y Ore can spawn at");
+        TitaniumMaxYGen = cfg.getInt("TitaniumMaxYGen", category_ores, TitaniumMaxYGen, 0, 255, "maximum Y Ore can spawn at");
+        
+        TitaniumSpawnChance = cfg.getInt("TitaniumSpawnChance", category_ores, TitaniumSpawnChance, 0, 1000, "Chance ore has to spawn");
+        
+        //tungsten
+        TungstenMinVein = cfg.getInt("TungstenMinVeinSize", category_ores, TungstenMinVein, 0, 1000, "minimum vein size");
+        TungstenMaxVein = cfg.getInt("TungstenMaxVein", category_ores, TungstenMaxVein, 0, 1000, "maximum vein size");
+        
+        TungstenMinYGen = cfg.getInt("TungstenMinYGen", category_ores, TungstenMinYGen, 0, 255, "minimum Y Ore can spawn at");
+        TungstenMaxYGen = cfg.getInt("TungstenMaxYGen", category_ores, TungstenMaxYGen, 0, 255, "maximum Y Ore can spawn at");
+        
+        TungstenSpawnChance = cfg.getInt("TungstenSpawnChance", category_ores, TungstenSpawnChance, 0, 1000, "Chance ore has to spawn");
         
     }
 

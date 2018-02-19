@@ -9,6 +9,7 @@ import ghostwolf.steampunkrevolution.network.PacketSpawnParticle;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.audio.SoundRegistry;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -203,4 +204,6 @@ public class TileEntitySteamOven extends TileEntityMachineBase {
     	DropItemsFromInv(InputItemStackHandler);
     	DropItemsFromInv(OutputItemStackHandler);
     }
+    
+  
 }

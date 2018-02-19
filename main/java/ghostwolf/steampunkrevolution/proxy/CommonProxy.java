@@ -7,11 +7,14 @@ import org.apache.logging.log4j.Level;
 import ghostwolf.steampunkrevolution.Config;
 import ghostwolf.steampunkrevolution.Reference;
 import ghostwolf.steampunkrevolution.SteampunkRevolutionMod;
+import ghostwolf.steampunkrevolution.blocks.BlockAltar;
 import ghostwolf.steampunkrevolution.blocks.BlockBoiler;
 import ghostwolf.steampunkrevolution.blocks.BlockFluidLoader;
 import ghostwolf.steampunkrevolution.blocks.BlockFluidUnloader;
 import ghostwolf.steampunkrevolution.blocks.BlockLoader;
+import ghostwolf.steampunkrevolution.blocks.BlockMetal;
 import ghostwolf.steampunkrevolution.blocks.BlockOre;
+import ghostwolf.steampunkrevolution.blocks.BlockPedestal;
 import ghostwolf.steampunkrevolution.blocks.BlockRainTank;
 import ghostwolf.steampunkrevolution.blocks.BlockResinExtractor;
 import ghostwolf.steampunkrevolution.blocks.BlockResinSolidifier;
@@ -32,13 +35,19 @@ import ghostwolf.steampunkrevolution.items.ItemBrassGoggles;
 import ghostwolf.steampunkrevolution.items.ItemCart;
 import ghostwolf.steampunkrevolution.items.ItemMaterial;
 import ghostwolf.steampunkrevolution.items.ItemMetaBlock;
+import ghostwolf.steampunkrevolution.items.ItemMetal;
 import ghostwolf.steampunkrevolution.items.ItemRobotWrench;
+import ghostwolf.steampunkrevolution.items.mech.ItemMechanoid;
+import ghostwolf.steampunkrevolution.items.mech.ItemMechanoidChassis;
+import ghostwolf.steampunkrevolution.items.mech.ItemMechanoidPart;
 import ghostwolf.steampunkrevolution.network.PacketHandler;
 import ghostwolf.steampunkrevolution.render.RenderWorldLastEventHandler;
+import ghostwolf.steampunkrevolution.tileentities.TileEntityAltar;
 import ghostwolf.steampunkrevolution.tileentities.TileEntityBoiler;
 import ghostwolf.steampunkrevolution.tileentities.TileEntityFluidLoader;
 import ghostwolf.steampunkrevolution.tileentities.TileEntityFluidUnloader;
 import ghostwolf.steampunkrevolution.tileentities.TileEntityLoader;
+import ghostwolf.steampunkrevolution.tileentities.TileEntityPedestal;
 import ghostwolf.steampunkrevolution.tileentities.TileEntityRainTank;
 import ghostwolf.steampunkrevolution.tileentities.TileEntityResinExtractor;
 import ghostwolf.steampunkrevolution.tileentities.TileEntityResinSolidifier;
@@ -46,6 +55,7 @@ import ghostwolf.steampunkrevolution.tileentities.TileEntitySteamCrusher;
 import ghostwolf.steampunkrevolution.tileentities.TileEntitySteamFurnace;
 import ghostwolf.steampunkrevolution.tileentities.TileEntitySteamOven;
 import ghostwolf.steampunkrevolution.tileentities.TileEntityUnloader;
+import ghostwolf.steampunkrevolution.worldgen.GenerateOres;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityTracker;
 import net.minecraft.init.Items;
@@ -65,6 +75,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -76,6 +87,7 @@ public class CommonProxy {
 	
 	
 	    public void preInit(FMLPreInitializationEvent e) {
+	    	//ModItems.metal.initIdMap();
 	    	configFolder = new File(e.getSuggestedConfigurationFile().getParentFile(), Reference.MOD_ID);
 	        config = new Configuration(new File(configFolder, Reference.MOD_ID + ".cfg"), Reference.Version, true);
 	        Config.readConfig();
@@ -86,9 +98,12 @@ public class CommonProxy {
 	  
 
 	    public void init(FMLInitializationEvent e) {
+	    	 NetworkRegistry.INSTANCE.registerGuiHandler(SteampunkRevolutionMod.instance, new GuiProxy());
 	    	ModFluids.init();
 	    	ModBlocks.initOreDict();
 	    	ModItems.initOreDict();
+	    	ModRecipes.init();
+	    	GameRegistry.registerWorldGenerator(new GenerateOres(), 1);
 	    	MinecraftForge.EVENT_BUS.post(new EventRegisterSolidifierRecipe());
 	    }
 
@@ -136,6 +151,14 @@ public class CommonProxy {
 		        GameRegistry.registerTileEntity(TileEntityFluidUnloader.class, Reference.MOD_ID + ":TileEntityFluidUnloader");
 		        
 		        event.getRegistry().register(new BlockOre());
+		        
+		        event.getRegistry().register(new BlockMetal());
+		        
+		        event.getRegistry().register(new BlockPedestal());
+		        GameRegistry.registerTileEntity(TileEntityPedestal.class, Reference.MOD_ID + ":TileEntityPedestal");
+		        
+		        event.getRegistry().register(new BlockAltar());
+		        GameRegistry.registerTileEntity(TileEntityAltar.class, Reference.MOD_ID + ":TileEntityAltar");
 	    }
 
 	    @SubscribeEvent
@@ -165,12 +188,27 @@ public class CommonProxy {
 	        event.getRegistry().register(new ItemRobotWrench());
 	        
 	        event.getRegistry().register(new ItemMetaBlock(ModBlocks.ore).setRegistryName(ModBlocks.ore.getRegistryName()));
-	    
+	        
+	        event.getRegistry().register(new ItemBlock(ModBlocks.pedestal).setRegistryName(ModBlocks.pedestal.getRegistryName()));
+	        
 	        event.getRegistry().register(new ItemMaterial());
+	        
+	        event.getRegistry().register(new ItemMechanoidPart());
 	        
 	        event.getRegistry().register(new ItemCart());
 	    
 	        event.getRegistry().register(new ItemBrassGoggles());
+	        
+	        event.getRegistry().register(new ItemMechanoidChassis());
+	        
+	        event.getRegistry().register(new ItemMechanoid());
+	        
+	        event.getRegistry().register(new ItemMetal());
+	        
+	        event.getRegistry().register(new ItemBlock(ModBlocks.altar).setRegistryName(ModBlocks.altar.getRegistryName()));
+	     
+	        event.getRegistry().register(new ItemMetaBlock(ModBlocks.metalBlock).setRegistryName(ModBlocks.metalBlock.getRegistryName()));
+
 	    }
 	
 	

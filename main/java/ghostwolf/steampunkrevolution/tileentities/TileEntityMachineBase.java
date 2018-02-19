@@ -6,6 +6,7 @@ import ghostwolf.steampunkrevolution.network.PacketHandler;
 import ghostwolf.steampunkrevolution.network.PacketSpawnParticle;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -22,6 +23,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -31,7 +33,7 @@ public class TileEntityMachineBase extends TileEntity implements ITickable {
 	
 	public void createSmoke (int amount) {
 		if (Config.enableSmoke) {
-			PacketHandler.INSTANCE.sendToAll(new PacketSpawnParticle(this.pos.getX() + 0.5, this.pos.getY() + 1.1, this.pos.getZ() + 0.5, EnumParticleTypes.CLOUD.getParticleID(), amount, 0.3F,0F,0.3F,0F));
+			PacketHandler.INSTANCE.sendToAllAround(new PacketSpawnParticle(this.pos.getX() + 0.5, this.pos.getY() + 1.1, this.pos.getZ() + 0.5, EnumParticleTypes.CLOUD.getParticleID(), amount, 0.3F,0F,0.3F,0F), new TargetPoint(this.world.provider.getDimension() ,this.pos.getX(), this.getPos().getY(), this.pos.getZ(), Config.smokeRenderRange));
 		}
 	}
 	
@@ -219,5 +221,9 @@ public class TileEntityMachineBase extends TileEntity implements ITickable {
 		         return new SPacketUpdateTileEntity(getPos(), 1, getUpdateTag());
 		    }
 	
+		    public boolean canInteractWith(EntityPlayer playerIn) {
+		        // If we are too far away from this tile entity you cannot use it
+		        return !isInvalid() && playerIn.getDistanceSq(pos.add(0.5D, 0.5D, 0.5D)) <= 64D;
+		    }
 
 }

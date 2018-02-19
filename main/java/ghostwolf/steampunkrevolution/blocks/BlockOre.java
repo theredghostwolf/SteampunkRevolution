@@ -3,7 +3,7 @@ package ghostwolf.steampunkrevolution.blocks;
 import com.mojang.authlib.properties.Property;
 
 import ghostwolf.steampunkrevolution.Reference;
-import ghostwolf.steampunkrevolution.enums.EnumOres;
+import ghostwolf.steampunkrevolution.enums.EnumMetals;
 import ghostwolf.steampunkrevolution.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -27,7 +27,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class BlockOre extends Block implements IMetaBlockName {
 
-	public static final PropertyEnum type = PropertyEnum.create("type", EnumOres.class);
+	public static final PropertyEnum type = PropertyEnum.create("type", EnumMetals.class);
 	
 	public BlockOre() {
 		super(Material.ROCK);
@@ -39,35 +39,35 @@ public class BlockOre extends Block implements IMetaBlockName {
 		setResistance(5F);
 		setHarvestLevel("pickaxe", 1);
 	
-        setDefaultState(blockState.getBaseState().withProperty(type, EnumOres.Copper));
+        setDefaultState(blockState.getBaseState().withProperty(type, EnumMetals.Copper));
 	}
 	
 	@Override
 	public int getHarvestLevel(IBlockState state) {
-		return ((EnumOres) state.getValue(type)).getHarvestLevel();
+		return ((EnumMetals) state.getValue(type)).getHarvestLevel();
 	}
 	
 	@Override
 	public float getBlockHardness(IBlockState blockState, World worldIn, BlockPos pos) {
-		return  ((EnumOres) blockState.getValue(type)).getHardness();
+		return  ((EnumMetals) blockState.getValue(type)).getHardness();
 	}
 	
 	 @SideOnly(Side.CLIENT)
 	    public void initModel() {
-		 for (EnumOres o : EnumOres.values()) {
-	        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), o.getMeta() , new ModelResourceLocation(getRegistryName(), "type=" + o.getName()));
+		 for (EnumMetals o : EnumMetals.values()) {
+	        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), o.getId() , new ModelResourceLocation(getRegistryName(), "type=" + o.getName()));
 		 }
 		}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((EnumOres) state.getValue(type)).getMeta();
+		return ((EnumMetals) state.getValue(type)).getId();
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		
-		return getDefaultState().withProperty(type, EnumOres.values()[meta]);
+		return getDefaultState().withProperty(type, EnumMetals.values()[meta]);
 	}
 	
 	@Override
@@ -80,7 +80,7 @@ public class BlockOre extends Block implements IMetaBlockName {
 	
 	@Override
 	public String getSpecialName(ItemStack stack) {
-		return EnumOres.values()[stack.getItemDamage()].getName();
+		return EnumMetals.values()[stack.getItemDamage()].getName();
 	}
 	
 	
@@ -97,15 +97,17 @@ public class BlockOre extends Block implements IMetaBlockName {
 	}
 	
 	public void initOreDict () {
-		for (EnumOres o : EnumOres.values()) {
-			OreDictionary.registerOre("ore" + o.name(), new ItemStack(Item.getItemFromBlock(this),1,o.getMeta()));
+		for (EnumMetals o : EnumMetals.values()) {
+			OreDictionary.registerOre("ore" + o.name(), new ItemStack(Item.getItemFromBlock(this),1,o.getId()));
 		}
 	}
 	
 	@Override
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> tab) {
-		for (EnumOres o : EnumOres.values()) {
-			tab.add(new ItemStack(Item.getItemFromBlock(this),1, o.getMeta()));
+		for (EnumMetals o : EnumMetals.values()) {
+			if (o.hasOre()) {
+				tab.add(new ItemStack(Item.getItemFromBlock(this),1, o.getId()));
+			}
 		}
 	}
 

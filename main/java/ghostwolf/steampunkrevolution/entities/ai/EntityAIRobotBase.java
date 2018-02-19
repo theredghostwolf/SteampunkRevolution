@@ -185,7 +185,8 @@ public class EntityAIRobotBase extends EntityAIBase {
 		this.refuelTarget = null;
 		for (int i = 0; i < this.refuelTargetList.size(); i++) {
 			IFluidHandler t = this.refuelTargetList.get(i).tank;
-			if (t.drain(new FluidStack(FluidRegistry.getFluid("steam"), this.robot.getFluidTransferRate()), false).amount > 0) {
+			FluidStack stack = t.drain(new FluidStack(FluidRegistry.getFluid("steam"), this.robot.getFluidTransferRate()), false);
+			if (stack!= null && stack.amount > 0) {
 					this.refuelTarget = this.refuelTargetList.get(i);
 			}
 		}

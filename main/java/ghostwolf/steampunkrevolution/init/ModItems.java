@@ -5,7 +5,11 @@ import ghostwolf.steampunkrevolution.Reference;
 import ghostwolf.steampunkrevolution.items.ItemBrassGoggles;
 import ghostwolf.steampunkrevolution.items.ItemCart;
 import ghostwolf.steampunkrevolution.items.ItemMaterial;
+import ghostwolf.steampunkrevolution.items.ItemMetal;
 import ghostwolf.steampunkrevolution.items.ItemRobotWrench;
+import ghostwolf.steampunkrevolution.items.mech.ItemMechanoid;
+import ghostwolf.steampunkrevolution.items.mech.ItemMechanoidChassis;
+import ghostwolf.steampunkrevolution.items.mech.ItemMechanoidPart;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -33,6 +37,18 @@ public class ModItems {
     
     @GameRegistry.ObjectHolder(Reference.MOD_ID + ":brassgoggles")
     public static ItemBrassGoggles brassgoggles;
+    
+    @GameRegistry.ObjectHolder(Reference.MOD_ID + ":mechanoidpart")
+    public static ItemMechanoidPart mechanoidpart;
+    
+    @GameRegistry.ObjectHolder(Reference.MOD_ID + ":mechanoidchassis")
+    public static ItemMechanoidChassis mechanoidchassis;
+    
+    @GameRegistry.ObjectHolder(Reference.MOD_ID + ":mechanoid")
+    public static ItemMechanoid mechanoid;
+    
+    @GameRegistry.ObjectHolder(Reference.MOD_ID + ":metal")
+    public static ItemMetal metal;
 	
 	public static void init () {
 
@@ -44,6 +60,10 @@ public class ModItems {
 		 robotwrench.initModel();
 		 cart.initModel();
 		 brassgoggles.initModel();
+		 mechanoidpart.initModel();
+		 mechanoidchassis.initModel();
+		 mechanoid.initModel();
+		 metal.initModel();
 	 }
 	 
 	 
@@ -57,6 +77,7 @@ public class ModItems {
 	
 	public static void initOreDict () {
 		material.addToOreDict();
+		metal.addToOreDict();
 	};
 	
 	

@@ -3,10 +3,13 @@ package ghostwolf.steampunkrevolution.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import ghostwolf.steampunkrevolution.Config;
 import ghostwolf.steampunkrevolution.entities.ai.EntityAIRobotExtractItem;
 import ghostwolf.steampunkrevolution.entities.ai.EntityAIRobotFuel;
 import ghostwolf.steampunkrevolution.entities.ai.EntityAIRobotInsertItem;
 import ghostwolf.steampunkrevolution.init.ModItems;
+import ghostwolf.steampunkrevolution.network.PacketHandler;
+import ghostwolf.steampunkrevolution.network.PacketSpawnParticle;
 import ghostwolf.steampunkrevolution.tileentities.TileEntitySteamOven;
 import ghostwolf.steampunkrevolution.util.AccessPoint;
 import ghostwolf.steampunkrevolution.util.InventoryHelper;
@@ -29,12 +32,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -83,17 +89,32 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 	public EntityRobot(World worldIn) {
 		super(worldIn);	
 		setupAI(worldIn); 
-		initTank();
+		initTank(tankCapacity * Fluid.BUCKET_VOLUME);
 	}
 	
 	public EntityRobot(World worldIn, BlockPos home) {
 			super(worldIn);
 			setupAI(worldIn);
-			initTank();
+			initTank(tankCapacity * Fluid.BUCKET_VOLUME);
 			if (home != null && home != BlockPos.ORIGIN) {
 				this.setHomePosAndDistance(home, this.getRange());
-			}		
+			}
+		
 	}
+	
+	public EntityRobot(World worldIn, BlockPos home, int tankSize, int invSize, int usage, int hp) {
+		super(worldIn);
+		setupAI(worldIn);
+		
+		initTank(tankSize);
+		if (home != null && home != BlockPos.ORIGIN) {
+			this.setHomePosAndDistance(home, this.getRange());
+		}	
+		
+		this.ItemStackHandler = new ItemStackHandler(invSize) { };
+		this.operateCost = usage;
+		this.setHealth(hp);
+}
 	
 	protected void setupAI (World worldIn) {
 		this.tasks.addTask(0, new EntityAISwimming(this));
@@ -105,8 +126,8 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 		this.tasks.addTask(6, new EntityAILookIdle(this));
 	}
 	
-	protected void initTank () {
-		this.steamTank = new FluidTank (Fluid.BUCKET_VOLUME * this.tankCapacity);
+	protected void initTank (int size) {
+		this.steamTank = new FluidTank (size);
 	}
 	
     private ItemStackHandler ItemStackHandler = new ItemStackHandler(invSize) { };
@@ -425,6 +446,7 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 		if (this.isServerWorld()) {
 		FluidStack steam = this.steamTank.getFluid();
 		if (steam != null) {
+			PacketHandler.INSTANCE.sendToAllAround(new PacketSpawnParticle(this.posX, this.posY + 1.7D, this.posZ, EnumParticleTypes.CLOUD.getParticleID()	, 1, 0.3F, 0, 0.2F, 0), new NetworkRegistry.TargetPoint(this.dimension, this.posX, this.posY, this.posZ, Config.smokeRenderRange));
 			this.steamTank.drain(this.operateCost, true);
 		} else {
 			if (this.damageTick <= 0) {
@@ -436,6 +458,28 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 			}
 		}
 		}
+	}
+	
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+			return true;
+		} 
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+			return (T) this.steamTank;
+		} 
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return (T) this.getItemStackHandler();
+		}
+		return null;
 	}
 	
 	

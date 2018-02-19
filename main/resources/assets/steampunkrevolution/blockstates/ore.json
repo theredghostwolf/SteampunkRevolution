@@ -3,7 +3,8 @@
   "defaults": {
     "model": "steampunkrevolution:ore",
     "textures": {
-	"all": "steampunkrevolution:blocks/oreCopper"
+	"all": "minecraft:blocks/stone",
+	"colored": "steampunkrevolution:blocks/basevein"
 	}
   },
   "variants": {
@@ -11,39 +12,26 @@
     "inventory": [{}],
     "type": {
 	"copper": {
-		"textures": {
-	 		"all": "steampunkrevolution:blocks/copperore"
-   		}
+		
 	},
 	"tin": {
-		"textures": {
-		 	"all": "steampunkrevolution:blocks/tinore"
-	   	}
+
+
 	},
 	"lead": {
-		"textures": {
-		 	"all": "steampunkrevolution:blocks/leadore"
-	   	}
+		
 	},
 	"silver": {
-		"textures": {
-		 	"all": "steampunkrevolution:blocks/silverore"
-	   	}
+		
 	},
 	"tungsten": {
-		"textures": {
-		 	"all": "steampunkrevolution:blocks/tungstenore"
-	   	}
+		
 	},
 	"titanium": {
-		"textures": {
-		 	"all": "steampunkrevolution:blocks/titaniumore"
-	   	}
+		
 	},
 	"zinc": {
-		"textures": {
-		 	"all": "steampunkrevolution:blocks/zincore"
-	   	}
+		
 	 }
        }
      }

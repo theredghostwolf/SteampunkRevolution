@@ -22,9 +22,6 @@ public class SolidifierRecipe {
 	public SolidifierRecipe (Fluid f, int famount, Item i, int iamount, int m) {
 		this.fluidCost = new FluidStack(f, famount);
 		this.item = new ItemStack(i, iamount, m);
-		SteampunkRevolutionMod.logger.log(Level.INFO, i);
-		SteampunkRevolutionMod.logger.log(Level.INFO, iamount);
-		SteampunkRevolutionMod.logger.log(Level.INFO, m);
 	}
 	
 	public boolean isValid(FluidStack stack){

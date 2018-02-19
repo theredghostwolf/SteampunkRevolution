@@ -1,0 +1,51 @@
+{
+	"forge_marker": 1,
+	"textures": {
+			"layer0": "steampunkrevolution:items/mechanoidparts/mechanoidcore"
+		},
+	"defaults": {
+		"model": "steampunkrevolution:item_material"
+  	},
+	"variants": {
+		"inventory": [{}],
+		"normal": [{}],
+		"type": {
+			"kabanericore": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/mechanoidparts/mechanoidcore"
+				}
+			},
+"copperleg": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/mechanoidparts/copperleg"
+				}
+			},
+"copperarm": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/mechanoidparts/copperarm"
+				}
+			},
+"copperhead": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/mechanoidparts/copperhead"
+				}
+			},
+"basicfueltank": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/mechanoidparts/basictank"
+				}
+			},
+"basicstorage": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/mechanoidparts/basicstorage"
+				}
+			},
+"basicsteamengine": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/mechanoidparts/basicsteamengine"
+				}
+			}
+
+		}
+	}
+}

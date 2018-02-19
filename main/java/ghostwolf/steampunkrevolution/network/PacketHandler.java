@@ -29,6 +29,8 @@ public class PacketHandler {
         INSTANCE.registerMessage(PacketSetAccessPoint.Handler.class, PacketSetAccessPoint.class, nextID(), Side.SERVER);
         
         INSTANCE.registerMessage(PacketGetAccessPoints.Handler.class, PacketGetAccessPoints.class, nextID(), Side.CLIENT);
-   }
+        
+        INSTANCE.registerMessage(PacketSetLoaderConfig.Handler.class, PacketSetLoaderConfig.class, nextID(), Side.SERVER);
+    	}
 
 }

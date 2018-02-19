@@ -21,7 +21,7 @@ public enum EnumCarts implements IStringSerializable{
 	}
 	
 	public EntityMinecart getCart(World w, float x, float y, float z) {
-		return new EntityMinecartTank(w); 
+		return new EntityMinecartTank(w,x ,y, z); 
 	}
 	
 	

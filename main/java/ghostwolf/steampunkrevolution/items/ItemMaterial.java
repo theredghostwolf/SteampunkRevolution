@@ -24,10 +24,10 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ItemMaterial extends Item {
 	
 	public ItemMaterial () {
-	 setRegistryName("material");
-     setUnlocalizedName(Reference.MOD_ID + ":material");
-     setHasSubtypes(true);
-     setCreativeTab(ModItems.SteampunkItemsTab);
+		setRegistryName("material");
+		setUnlocalizedName(Reference.MOD_ID + ":material");
+		setHasSubtypes(true);
+		setCreativeTab(ModItems.SteampunkItemsTab);
 	}
 	
 	@Override
@@ -38,9 +38,11 @@ public class ItemMaterial extends Item {
 	@SideOnly(Side.CLIENT)
     public void initModel() {
 		for (EnumMaterial i : EnumMaterial.values()) {
-			ModelLoader.setCustomModelResourceLocation(this, i.ordinal(), new ModelResourceLocation(getRegistryName(), "type=" + i.getName()));
+			ModelLoader.setCustomModelResourceLocation(this, i.ordinal(), new ModelResourceLocation(getRegistryName(), "type=" + i.getType()));
 		}
 	}
+	
+	
 	
 	public void addToOreDict () {
 		for (EnumMaterial i : EnumMaterial.values()) {
@@ -72,9 +74,6 @@ public class ItemMaterial extends Item {
 			tooltip.add(t);
 			//SteampunkRevolutionMod.logger.log(Level.INFO, "added tooltip : " + t);
 		}
-		
-		
-		
 		
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}

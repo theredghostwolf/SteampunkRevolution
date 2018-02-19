@@ -10,6 +10,46 @@
 		"inventory": [{}],
 		"normal": [{}],
 		"type": {
+			"ingotbase": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/material/baseingot"
+				}
+			},
+    			"dustbase": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/material/basedust"
+				}
+			},
+			"chunkbase": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/material/basechunks"
+				}
+			},
+			"nuggetbase": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/material/basenugget"
+				}
+			},
+			"platebase": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/material/baseplate"
+				}
+			},
+			"gearbase": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/material/basegear"
+				}
+			},
+			"rodbase": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/material/baserod"
+				}
+			},
+			"tinygearbase": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/material/basetinygear"
+				}
+			},
 			"ingotcopper": {
 				"textures": {
 					"layer0": "steampunkrevolution:items/material/copperingot"

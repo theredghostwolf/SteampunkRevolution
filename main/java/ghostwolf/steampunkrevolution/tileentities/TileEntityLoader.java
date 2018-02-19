@@ -103,7 +103,28 @@ public class TileEntityLoader extends TileEntityMinecartMachineBase {
     	  }
     }
     
+    @Override
+    public NBTTagCompound getUpdateTag() {
+    	// TODO Auto-generated method stub
+    	NBTTagCompound tag =  super.getUpdateTag();
+    		tag.setBoolean("emitWhenEmpty", this.emitWhenLoaderEmpty);
+    		tag.setBoolean("emitwhenfull", this.emitWhenCartFull);
+    	return tag;
+    }
+    
+    @Override
+    public void handleUpdateTag(NBTTagCompound tag) {
+    	if (tag.hasKey("emitWhenEmpty")) {
+    		this.emitWhenLoaderEmpty = tag.getBoolean("emitWhenEmpty");
+    	}
+    	if (tag.hasKey("emitwhenfull")) {
+    		this.emitWhenCartFull = tag.getBoolean("emitwhenfull");
+    	}
+    	super.handleUpdateTag(tag);
+    }
+    
     private void handleRedstone () {
+    	System.out.println(this.emitWhenLoaderEmpty);
 		this.isEmittingRedstone = false;
 		if (invIsEmpty(itemStackHandler) && this.emitWhenLoaderEmpty) {
 			this.isEmittingRedstone = true;

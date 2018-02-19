@@ -1,0 +1,30 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "steampunkrevolution:metalblock",
+    "textures": {
+	"all": "steampunkrevolution:blocks/baseblock"
+	}
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+	"type": {
+"copper": {},
+"tin": {},
+"lead": {},
+"zinc": {},
+"silver": {},
+"titanium": {},
+"tungsten": {},
+
+"brass": {},
+"bronze": {},
+"steel": {},
+"electrum": {},
+"blacksteel": {}
+	}
+    
+     }
+ }
+
