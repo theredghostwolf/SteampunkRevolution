@@ -98,7 +98,9 @@ public class BlockOre extends Block implements IMetaBlockName {
 	
 	public void initOreDict () {
 		for (EnumMetals o : EnumMetals.values()) {
-			OreDictionary.registerOre("ore" + o.name(), new ItemStack(Item.getItemFromBlock(this),1,o.getId()));
+			if (o.hasOre()) {
+				OreDictionary.registerOre("ore" + o.name(), new ItemStack(Item.getItemFromBlock(this),1,o.getId()));
+			}
 		}
 	}
 	

@@ -83,10 +83,10 @@ public class Config {
     public static int LeadSpawnChance = 15;
     
     public static int ZincMinVein = 2;
-    public static int ZincMaxVein = 4;
+    public static int ZincMaxVein = 6;
     public static int ZincMinYGen = 0;
-    public static int ZincMaxYGen = 45;
-    public static int ZincSpawnChance = 13;
+    public static int ZincMaxYGen = 50;
+    public static int ZincSpawnChance = 15;
     
     public static int SilverMinVein = 2;
     public static int SilverMaxVein = 4;
