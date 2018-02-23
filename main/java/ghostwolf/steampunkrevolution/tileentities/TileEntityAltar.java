@@ -8,6 +8,7 @@ import ghostwolf.steampunkrevolution.init.ModItems;
 import ghostwolf.steampunkrevolution.items.mech.ItemMechanoidChassis;
 import ghostwolf.steampunkrevolution.items.mech.ItemMechanoidChassis.Chassis;
 import ghostwolf.steampunkrevolution.items.mech.ItemMechanoidPart;
+import ghostwolf.steampunkrevolution.items.mech.ItemMechanoidPart.EnumType;
 import ghostwolf.steampunkrevolution.items.mech.ItemMechanoidPart.Part;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityXPOrb;
@@ -83,7 +84,25 @@ public class TileEntityAltar extends TileEntityDisplay {
 				}
 			}
 			
-			if (arms > c.getArms() || legs > c.getLegs() || heads > c.getHeads() || cores > c.getCores() || engines > c.getEngines() || tanks > c.getTanks() || storages > c.getStorages() || upgrades > c.getUpgrades() || arms < 2 || legs < 2 || heads < 1 || cores < 1 || engines < 1 || tanks < 1) {
+			if (
+					arms > c.getArms() ||
+					legs > c.getLegs() ||
+					heads > c.getHeads() ||
+					cores > c.getCores() ||
+					engines > c.getEngines() ||
+					tanks > c.getTanks() ||
+					storages > c.getStorages() ||
+					upgrades > c.getUpgrades() ||
+					
+					
+					arms < c.getMinArms() ||
+					legs < c.getMinLegs() ||
+					heads < c.getMinHeads() ||
+					cores < c.getMinCores() ||
+					engines < c.getMinEngines() ||
+					tanks < c.getMinTanks() ||
+					storages < c.getMinStorages() ||
+					upgrades < c.getMinUpgrades() ) {
 				//too many components or not enough
 			} else {
 				//assemble
@@ -110,6 +129,7 @@ public class TileEntityAltar extends TileEntityDisplay {
 		int invSize = 0;
 		int steamcost = 0;
 		int hp = c.getTier() * 5;
+		String core = "";
 		
 		for (int i = 0; i < l.size(); i++) {
 			
@@ -121,12 +141,17 @@ public class TileEntityAltar extends TileEntityDisplay {
 			invSize += part.getInvSize();
 			steamcost += part.getFuelUsage();
 			hp += part.getHp();
+			
+			if (part.getType() == EnumType.core) {
+				core = part.getName();
+			}
 		}
 		
 		tag.setInteger("hp", hp);
 		tag.setInteger("inv", invSize);
 		tag.setInteger("tank", tankSize);
 		tag.setInteger("cost", steamcost);
+		tag.setString("core", core);
 		
 		return tag;
 	}

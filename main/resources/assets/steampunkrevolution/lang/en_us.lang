@@ -51,18 +51,18 @@ item.steampunkrevolution:metal.gearsteel.name=Steel Gear
 item.steampunkrevolution:metal.gearelectrum.name=Electrum Gear
 item.steampunkrevolution:metal.gearblacksteel.name=Blacksteel Gear
 
-item.steampunkrevolution:metal.stickcopper.name=Copper Stick
-item.steampunkrevolution:metal.sticktin.name=Tin Stick
-item.steampunkrevolution:metal.sticklead.name=Lead Stick
-item.steampunkrevolution:metal.sticksilver.name=Silver Stick
-item.steampunkrevolution:metal.sticktitanium.name=Titanium Stick
-item.steampunkrevolution:metal.sticktungsten.name=Tungsten Stick
-item.steampunkrevolution:metal.stickzinc.name=Zinc Stick
-item.steampunkrevolution:metal.stickbrass.name=Brass Stick
-item.steampunkrevolution:metal.stickbronze.name=Bronze Stick
-item.steampunkrevolution:metal.sticksteel.name=Steel Stick
-item.steampunkrevolution:metal.stickelectrum.name=Electrum Stick
-item.steampunkrevolution:metal.stickblacksteel.name=Blacksteel Stick
+item.steampunkrevolution:metal.stickcopper.name=Copper Rod
+item.steampunkrevolution:metal.sticktin.name=Tin Rod
+item.steampunkrevolution:metal.sticklead.name=Lead Rod
+item.steampunkrevolution:metal.sticksilver.name=Silver Rod
+item.steampunkrevolution:metal.sticktitanium.name=Titanium Rod
+item.steampunkrevolution:metal.sticktungsten.name=Tungsten Rod
+item.steampunkrevolution:metal.stickzinc.name=Zinc Rod
+item.steampunkrevolution:metal.stickbrass.name=Brass Rod
+item.steampunkrevolution:metal.stickbronze.name=Bronze Rod
+item.steampunkrevolution:metal.sticksteel.name=Steel Rod
+item.steampunkrevolution:metal.stickelectrum.name=Electrum Rod
+item.steampunkrevolution:metal.stickblacksteel.name=Blacksteel Rod
 
 item.steampunkrevolution:metal.tinygearcopper.name=Copper Tinygear
 item.steampunkrevolution:metal.tinygeartin.name=Tin Tinygear
@@ -151,14 +151,17 @@ item.steampunkrevolution:brassgoggles.name=Brass Goggles
 
 entity.steampunkrevolution:robot.name=Clockwork Mechanoid
 entity.steampunkrevolution:kabaneri.name=Kabaneri
+entity.steampunkrevolution:minecart_tank.name=Tank Cart
 
-item.steampunkrevolution:mechanoidpart.kabanericore.name=Kabaneri Core
+item.steampunkrevolution:material.kabaneriCore.name=Kabaneri Core
+
 item.steampunkrevolution:mechanoidpart.copperleg.name=Copper Leg
 item.steampunkrevolution:mechanoidpart.copperarm.name=Copper Arm
 item.steampunkrevolution:mechanoidpart.copperhead.name=Copper Head
 item.steampunkrevolution:mechanoidpart.basicfueltank.name=Basic Fueltank
 item.steampunkrevolution:mechanoidpart.basicstorage.name=Basic Storage
 item.steampunkrevolution:mechanoidpart.basicsteamengine.name=Basic Steamengine
+item.steampunkrevolution:mechanoidpart.transportcore.name=Transport Core
 
 item.steampunkrevolution:mechanoidchassis.copperchassis.name=Copper Chassis
 

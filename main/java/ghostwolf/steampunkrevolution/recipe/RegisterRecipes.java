@@ -44,7 +44,7 @@ public class RegisterRecipes {
 	 public static Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
 	
 	@SubscribeEvent()
-	public static void registerSolidifierRecipes1(EventRegisterSolidifierRecipe e) {
+	public static void registerSolidifierRecipes(EventRegisterSolidifierRecipe e) {
 		SteampunkRevolutionMod.logger.log(Level.INFO, "registering solidifier recipes");
 		e.registerRecipe(Reference.MOD_ID, new ItemStack(ModItems.material,1,EnumMaterial.driedResin.getMeta()), new FluidStack(FluidRegistry.getFluid("resin"), 100));
 	}
@@ -55,66 +55,106 @@ public class RegisterRecipes {
 		
 		RecipeHelper helper = new RecipeHelper();
 		
+		//arm 
+		helper.addShaped(new ItemStack(ModItems.mechanoidpart,1,1), 3, 2,
+				
+					"stickCopper",
+					Blocks.AIR,
+					"stickCopper",
+					Blocks.AIR,
+					"tinygearCopper",
+					Blocks.AIR
+				);
+		
+		
 		//raintank
-		helper.addShaped(ModBlocks.raintank, 3, 3, Blocks.PLANKS, Blocks.AIR, Blocks.PLANKS,Blocks.PLANKS, Blocks.AIR, Blocks.PLANKS,Blocks.PLANKS, Blocks.WOODEN_SLAB, Blocks.PLANKS);
+		helper.addShaped(ModBlocks.raintank, 3, 3, "plankWood", Blocks.AIR, "plankWood","plankWood", Blocks.AIR, "plankWood","plankWood", "slabWood", "plankWood");
+		
+		//alloys
+		helper.addShapeless(new ItemStack(ModItems.metal,2,ModItems.metal.getIdFor(EnumMetals.Bronze, EnumMetalParts.Ingot)),
+				"ingotCopper",
+				"ingotTin"
+				);
+		
+		helper.addShapeless(new ItemStack(ModItems.metal,2,ModItems.metal.getIdFor(EnumMetals.Brass, EnumMetalParts.Ingot)),
+				"ingotCopper",
+				"ingotZinc"
+				);
+		
+		helper.addShapeless(new ItemStack(ModItems.metal,2,ModItems.metal.getIdFor(EnumMetals.Steel, EnumMetalParts.Ingot)),
+				"coal",
+				"coal",
+				"ingotIron"
+		);
+		
+		helper.addShapeless(new ItemStack(ModItems.metal,2,ModItems.metal.getIdFor(EnumMetals.Blacksteel, EnumMetalParts.Ingot)),
+				"ingotSteel",
+				"ingotTungsten"
+			);
+		
+		helper.addShapeless(new ItemStack(ModItems.metal,2,ModItems.metal.getIdFor(EnumMetals.Electrum, EnumMetalParts.Ingot)),
+				"ingotSilver",
+				"ingotGold"
+		);
 		
 		for (EnumMetals m : EnumMetals.values()) {
 			for (EnumMetalParts p : EnumMetalParts.values()) {
 				switch (p) {
 				case Plate:
-					helper.addShaped(new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, p)), 2, 2,
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot))
+					helper.addShaped(new ItemStack(ModItems.metal,4,ModItems.metal.getIdFor(m, p)), 2, 2,
+							  "ingot" + m.getNameCapital(),
+							  "ingot" + m.getNameCapital(),
+							  "ingot" + m.getNameCapital(),
+							  "ingot" + m.getNameCapital()
 							);
 					break;
 				case Stick:
-					helper.addShaped(new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, p)), 1, 2,
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot))
+					helper.addShaped(new ItemStack(ModItems.metal,2,ModItems.metal.getIdFor(m, p)), 1, 2,
+							"ingot" + m.getNameCapital(),
+							"ingot" + m.getNameCapital()
 							);
 					break;
 				case Nugget:
-					helper.addShapeless(new ItemStack(ModItems.metal,9, ModItems.metal.getIdFor(m, p)), new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot) ));
+					helper.addShapeless(new ItemStack(ModItems.metal,9, ModItems.metal.getIdFor(m, p)), "ingot" + m.getNameCapital());
 					break;
 				case Ingot:
 					helper.addShaped(new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, p)),3, 3,
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Nugget)),
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Nugget)),
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Nugget)),
+							"nugget" + m.getNameCapital(),
+							"nugget" + m.getNameCapital(),
+							"nugget" + m.getNameCapital(),
 							
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Nugget)),
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Nugget)),
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Nugget)),
+							"nugget" + m.getNameCapital(),
+							"nugget" + m.getNameCapital(),
+							"nugget" + m.getNameCapital(),
 							
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Nugget)),
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Nugget)),
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Nugget)));
+							"nugget" + m.getNameCapital(),
+							"nugget" + m.getNameCapital(),
+							"nugget" + m.getNameCapital()
+							);
 					break;
 				case Gear:
 					helper.addShaped(new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, p)), 3, 3, 
 							Blocks.AIR,
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
+							"ingot" + m.getNameCapital(),
 							Blocks.AIR,
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
-							Items.IRON_INGOT,
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
+							"ingot" + m.getNameCapital(),
+							"ingotIron",
+							"ingot" + m.getNameCapital(),
 							Blocks.AIR,
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
+							"ingot" + m.getNameCapital(),
 							Blocks.AIR
 							);
 					break;
 				case Tinygear:
 					helper.addShaped(new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, p)), 3, 3, 
 							Blocks.AIR,
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Nugget)),
+							"nugget" + m.getNameCapital(),
 							Blocks.AIR,
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Nugget)),
-							Items.IRON_NUGGET,
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Nugget)),
+							"nugget" + m.getNameCapital(),
+							"nuggetIron",
+							"nugget" + m.getNameCapital(),
 							Blocks.AIR,
-							new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Nugget)),
+							"nugget" + m.getNameCapital(),
 							Blocks.AIR
 							);
 					break;
@@ -124,17 +164,17 @@ public class RegisterRecipes {
 			}
 			//ingots to blocks
 			helper.addShaped(new ItemStack(ModBlocks.metalBlock,1,m.getId()), 3, 3,
-					new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
-					new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
-					new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
+					"ingot" + m.getNameCapital(),
+					"ingot" + m.getNameCapital(),
+					"ingot" + m.getNameCapital(),
 					
-					new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
-					new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
-					new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
+					"ingot" + m.getNameCapital(),
+					"ingot" + m.getNameCapital(),
+					"ingot" + m.getNameCapital(),
 					
-					new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
-					new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)),
-					new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot))
+					"ingot" + m.getNameCapital(),
+					"ingot" + m.getNameCapital(),
+					"ingot" + m.getNameCapital()
 			);
 			if (m.hasOre()) {
 				//ore recipes
@@ -143,7 +183,9 @@ public class RegisterRecipes {
 			}
 			
 			//blocks to ingots
-			helper.addShapeless(new ItemStack(ModItems.metal,9,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)), new ItemStack(ModBlocks.metalBlock,1,m.getId()));
+			helper.addShapeless(new ItemStack(ModItems.metal,9,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot)), "block" + m.getNameCapital());
+			//dust to ingot smelting recipe
+			GameRegistry.addSmelting(new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Dust)), new ItemStack(ModItems.metal,1,ModItems.metal.getIdFor(m, EnumMetalParts.Ingot) ), 0);
 			
 		}
 		
@@ -158,10 +200,10 @@ public class RegisterRecipes {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerConfigRecipes(EventRegisterSolidifierRecipe e) {
 		SteampunkRevolutionMod.logger.log(Level.INFO, "registering solidifier recipes from config");
-		registerSolidifierRecipes1(e);
+		registerSolidifierRecipes(e);
 	}
 	
-	private static void registerSolidifierRecipes (EventRegisterSolidifierRecipe e) {
+	private static void registerSolidifierRecipesFromConfig (EventRegisterSolidifierRecipe e) {
 		File recipesFolder = new File(CommonProxy.configFolder, "SolidifierRecipes");
 		if(!recipesFolder.exists())recipesFolder.mkdir();
 		for(File recipeFile : recipesFolder.listFiles()){

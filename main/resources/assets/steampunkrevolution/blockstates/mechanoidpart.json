@@ -40,6 +40,11 @@
 					"layer0": "steampunkrevolution:items/mechanoidparts/basicstorage"
 				}
 			},
+"transportcore": {
+				"textures": {
+					"layer0": "steampunkrevolution:items/mechanoidparts/transportcore"
+				}
+			},
 "basicsteamengine": {
 				"textures": {
 					"layer0": "steampunkrevolution:items/mechanoidparts/basicsteamengine"

@@ -8,7 +8,10 @@ public class IItemBlockMetalColor implements IItemColor {
 
 	@Override
 	public int colorMultiplier(ItemStack stack, int tintIndex) {
-		return EnumMetals.values()[stack.getItemDamage()].getColor();
-	}
+		if (tintIndex == 0) {
+			return EnumMetals.values()[stack.getItemDamage()].getColor();
+		}
+		return 0xffffff;
+		}
 
 }

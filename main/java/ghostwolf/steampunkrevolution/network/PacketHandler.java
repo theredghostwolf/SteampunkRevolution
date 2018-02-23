@@ -31,6 +31,10 @@ public class PacketHandler {
         INSTANCE.registerMessage(PacketGetAccessPoints.Handler.class, PacketGetAccessPoints.class, nextID(), Side.CLIENT);
         
         INSTANCE.registerMessage(PacketSetLoaderConfig.Handler.class, PacketSetLoaderConfig.class, nextID(), Side.SERVER);
-    	}
+    	
+        INSTANCE.registerMessage(PacketOpenCosmeticGui.Handler.class, PacketOpenCosmeticGui.class, nextID(), Side.SERVER);
+        
+        INSTANCE.registerMessage(PacketSyncCosmeticArmor.Handler.class, PacketSyncCosmeticArmor.class, nextID(), Side.CLIENT);
+    }
 
 }

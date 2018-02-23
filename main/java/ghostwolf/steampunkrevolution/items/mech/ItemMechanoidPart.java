@@ -11,16 +11,21 @@ import ghostwolf.steampunkrevolution.enums.EnumMaterial;
 import ghostwolf.steampunkrevolution.init.ModItems;
 import it.unimi.dsi.fastutil.Arrays;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMechanoidPart extends Item {
-		
+	
+	//name, id, tier, type, slots, fuelstorage, fuel usage, itemTransfer, fluidTransfer, movespeed
+
 	public final Part[] parts = {
 		//copper base parts
 		new Part("copperleg", 0,1,EnumType.leg, 0, 0, 0, 0, 0, 0.1F),
@@ -28,10 +33,10 @@ public class ItemMechanoidPart extends Item {
 		new Part("copperhead",2,1,EnumType.head, 0, 0, 0, 0, 0, 0),
 		
 		//cores
-		new Part("kabanericore",3,1,EnumType.core, 0, 0, 0, 0, 0, 0),
+		new Part("transportcore",3,1,EnumType.core,0, 0, 0, 0, 0, 0),
 	
 		//basics
-		new Part("basicsteamengine",4,1,EnumType.engine,0,0,0,1,0,0.2F),
+		new Part("basicsteamengine",4,1,EnumType.engine,0,0,5,0,0,0.2F),
 		new Part("basicstorage",5,1,EnumType.storage,1,0,0,0,0,0),
 		new Part("basicfueltank",6,1,EnumType.tank,0,4000,0,0,0,0)
 		
@@ -107,7 +112,7 @@ public class ItemMechanoidPart extends Item {
 		}
 	}
 	
-	public enum EnumType {
+	public enum EnumType implements IStringSerializable {
 		arm(1), leg(1), head(2), core(2), tank(0), storage(0), engine(2), upgrade(0);
 		
 		private int hp;
@@ -118,6 +123,11 @@ public class ItemMechanoidPart extends Item {
 		
 		public int getHp() {
 			return this.hp;
+		}
+
+		@Override
+		public String getName() {
+			return this.toString();
 		}
 	}
 	
@@ -155,6 +165,33 @@ public class ItemMechanoidPart extends Item {
 		for (Part p : parts) {
 			ModelLoader.setCustomModelResourceLocation(this, p.getId(), new ModelResourceLocation(getRegistryName(), "type=" + p.getName()));
 		}
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		
+		Part p = getPart(stack.getItemDamage());
+		
+		tooltip.add("Tier: " + Integer.toString(p.getTier()));
+		tooltip.add("Type: " + p.getType().getName());
+		
+		if (p.getHp() > 0) {
+			tooltip.add("Hp: " + Integer.toString(p.getHp()));
+		}
+		
+		if (p.getInvSize() > 0) {
+			tooltip.add("Itemslots: " + Integer.toString(p.getInvSize()));
+		}
+		
+		if (p.getFuelStorage() > 0) {
+			tooltip.add("Fuelstorage: " + Integer.toString(p.getFuelStorage()) + " mb");
+		}
+		
+		if (p.getFuelUsage() > 0) {
+			tooltip.add("Fuelusage: " + Integer.toString(p.getFuelUsage()) + " mb/t");
+		}
+		
+		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
 	
 	

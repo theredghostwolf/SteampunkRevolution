@@ -12,6 +12,7 @@ public class Config {
     private static final String category_mechanoids = "mechanoids";
     private static final String category_rails = "rails";
     private static final String category_ores = "ores";
+    private static final String category_mobs = "mobs";
 
     // This values below you can access elsewhere in your mod:
     
@@ -106,6 +107,9 @@ public class Config {
     public static int TungstenMaxYGen = 30;
     public static int TungstenSpawnChance = 8;
     
+    //kabaneri spawn chance
+    public static int KabaneriSpawnChance = 30;
+    
     // Call this from CommonProxy.preInit(). It will create our config if it doesn't
     // exist yet and read the values if it does exist.
     public static void readConfig() {
@@ -116,6 +120,7 @@ public class Config {
             initBoilerConfig(cfg);
             initMachineConfig(cfg);
             initMechanoidConfig(cfg);
+            initMobsConfig(cfg);
             initOreConfig(cfg);
         } catch (Exception e1) {
             //error
@@ -133,6 +138,10 @@ public class Config {
         
         rainTankAmp = cfg.getInt("rainbarrelRainStrengthAmp", category_general, rainTankAmp, 0, 100000, "amount the raining strength gets multiplied by to generate water while raining (rainstrength is between 0.2 and 1)");
         rainTankBuckets = cfg.getInt("rainbarrelBuckets", category_general, rainTankBuckets, 1, 1000, "amount of buckets the rainbarrel can hold");
+    }
+    
+    private static void initMobsConfig (Configuration cfg) {
+    	KabaneriSpawnChance = cfg.getInt("kabaneriSpawnChance", category_mobs, KabaneriSpawnChance, 0, 1000, "chance kabaneri have to spawn");
     }
 
     private static void initBoilerConfig(Configuration cfg) {

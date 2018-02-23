@@ -11,7 +11,8 @@ public enum EnumMaterial implements IStringSerializable {
 	
 	steamBowl("","As I faced my death, steam was whirling around me. I saw it, felt it, and then I knew, science is power."),
 	amberCrystal(3200),
-	driedResin(1600);
+	driedResin(1600),
+	kabaneriCore;
 		
 	String oredictEntry = "";
 	int fuelValue = 0;

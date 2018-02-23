@@ -22,6 +22,8 @@ import ghostwolf.steampunkrevolution.blocks.BlockSteamCrusher;
 import ghostwolf.steampunkrevolution.blocks.BlockSteamFurnace;
 import ghostwolf.steampunkrevolution.blocks.BlockSteamOven;
 import ghostwolf.steampunkrevolution.blocks.BlockUnloader;
+import ghostwolf.steampunkrevolution.capabilities.CapabilityCosmeticArmor;
+import ghostwolf.steampunkrevolution.event.CosmeticArmorHandler;
 import ghostwolf.steampunkrevolution.event.EventRegisterSolidifierRecipe;
 import ghostwolf.steampunkrevolution.init.ModBlocks;
 import ghostwolf.steampunkrevolution.init.ModCapabilities;
@@ -40,6 +42,8 @@ import ghostwolf.steampunkrevolution.items.ItemRobotWrench;
 import ghostwolf.steampunkrevolution.items.mech.ItemMechanoid;
 import ghostwolf.steampunkrevolution.items.mech.ItemMechanoidChassis;
 import ghostwolf.steampunkrevolution.items.mech.ItemMechanoidPart;
+import ghostwolf.steampunkrevolution.keybinds.InputHandler;
+import ghostwolf.steampunkrevolution.keybinds.KeyBindings;
 import ghostwolf.steampunkrevolution.network.PacketHandler;
 import ghostwolf.steampunkrevolution.render.RenderWorldLastEventHandler;
 import ghostwolf.steampunkrevolution.tileentities.TileEntityAltar;
@@ -63,6 +67,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
@@ -103,15 +108,21 @@ public class CommonProxy {
 	    	ModBlocks.initOreDict();
 	    	ModItems.initOreDict();
 	    	ModRecipes.init();
+	        MinecraftForge.EVENT_BUS.register(new InputHandler());
+            KeyBindings.init();
 	    	GameRegistry.registerWorldGenerator(new GenerateOres(), 1);
 	    	MinecraftForge.EVENT_BUS.post(new EventRegisterSolidifierRecipe());
+	    	
+	    	MinecraftForge.EVENT_BUS.register(new CapabilityCosmeticArmor());
+	    	MinecraftForge.EVENT_BUS.register(new CosmeticArmorHandler());
 	    }
 
 	    public void postInit(FMLPostInitializationEvent e) {
 	    	  if (config.hasChanged()) {
 	              config.save();
 	          }
-	    }
+	    	  ModEntities.initSpawns();
+	    	 }
 
 	    @SubscribeEvent
 	    public static void registerBlocks(RegistryEvent.Register<Block> event) {

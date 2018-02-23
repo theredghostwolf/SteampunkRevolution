@@ -1,7 +1,9 @@
 package ghostwolf.steampunkrevolution.proxy;
 
+import ghostwolf.steampunkrevolution.containers.ContainerCosmeticArmor;
 import ghostwolf.steampunkrevolution.containers.ContainerLoader;
 import ghostwolf.steampunkrevolution.containers.ContainerOven;
+import ghostwolf.steampunkrevolution.gui.GuiCosmeticArmor;
 import ghostwolf.steampunkrevolution.gui.GuiLoader;
 import ghostwolf.steampunkrevolution.gui.GuiSteamOven;
 import ghostwolf.steampunkrevolution.tileentities.TileEntityLoader;
@@ -25,6 +27,9 @@ public class GuiProxy implements IGuiHandler {
         } else if (te instanceof TileEntityLoader) {
         	return new ContainerLoader((TileEntityLoader) te, player.inventory);
         }
+        if (ID == 3) {
+        	return new ContainerCosmeticArmor(player);
+        }
         return null;
     }
 
@@ -38,6 +43,9 @@ public class GuiProxy implements IGuiHandler {
         } else if (te instanceof TileEntityLoader) {
         	TileEntityLoader containerTileEntity = (TileEntityLoader) te;
         	return new GuiLoader(containerTileEntity, new ContainerLoader(containerTileEntity, player.inventory));
+        }
+        if (ID == 3) {
+        	return new GuiCosmeticArmor(new ContainerCosmeticArmor(player));
         }
         return null;
     }

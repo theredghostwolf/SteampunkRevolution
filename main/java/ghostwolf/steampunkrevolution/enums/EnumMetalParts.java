@@ -26,6 +26,10 @@ public enum EnumMetalParts implements IStringSerializable{
 		return this.toString().toLowerCase(Locale.ENGLISH);
 	}
 	
+	public String getNameCapital () {
+		return this.toString();
+	}
+	
 	public int getId () {
 		return this.id;
 	}

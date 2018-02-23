@@ -1,5 +1,7 @@
 package ghostwolf.steampunkrevolution.items.mech;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -7,6 +9,7 @@ import ghostwolf.steampunkrevolution.Reference;
 import ghostwolf.steampunkrevolution.entities.EntityRobot;
 import ghostwolf.steampunkrevolution.init.ModItems;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -58,6 +61,7 @@ public class ItemMechanoid extends Item {
 			 int invSize = 0;
 			 int cost = 1;
 			 int hp = 5; 
+			 String core = "";
 		
 			 
 			 if (tag.hasKey("tank")) {
@@ -72,12 +76,16 @@ public class ItemMechanoid extends Item {
 			 if (tag.hasKey("hp")) {
 				 hp = tag.getInteger("hp");
 			 }
+			 if (tag.hasKey("core")) {
+				 core = tag.getString("core");
+			 }
+			 
 			 
 			 IFluidHandler f =  player.getHeldItem(hand).getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
-			 
-			 
-			 EntityRobot r = new EntityRobot(worldIn,pos, tankSize, invSize, cost, hp);
+			 EntityRobot r = new EntityRobot(worldIn,pos, tankSize, invSize, cost, hp, core,player.getHeldItem(hand).copy());
+			 r.setCustomNameTag(player.getHeldItem(hand).getDisplayName());
 			 r.setPosition(pos.getX(), pos.getY() + 1.2, pos.getZ());
+			 
 			 IFluidHandler rf = r.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
 			 rf.fill(f.drain(new FluidStack(FluidRegistry.getFluid("steam"), 1000), false), true);
 			 worldIn.spawnEntity(r);
@@ -93,5 +101,30 @@ public class ItemMechanoid extends Item {
 	    {
 	 
 	    	return new FluidHandlerMechanoid(stack, 1000);
+	    }
+	    
+	    @Override
+	    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+	    	
+	    	NBTTagCompound tag =  stack.getTagCompound();
+	    	
+	    	 if (tag.hasKey("tank")) {
+	    		 tooltip.add("FuelStorage: " + Integer.toString(tag.getInteger("tank")) + " mb");
+			 }
+			 if (tag.hasKey("inv")) {
+				 tooltip.add("Storage Slots: " + Integer.toString(tag.getInteger("inv")));
+			 }
+			 if (tag.hasKey("cost")) {
+				 tooltip.add("FuelUsage: " + Integer.toString(tag.getInteger("cost")) + " mb/t");
+			 }
+			 if (tag.hasKey("hp")) {
+				 tooltip.add("Hp: " + Integer.toString(tag.getInteger("hp")));
+			 }
+			 if (tag.hasKey("core")) {
+				 tooltip.add("Core: " + tag.getString("core"));
+			 }
+	    	
+	    	
+	    	super.addInformation(stack, worldIn, tooltip, flagIn);
 	    }
 }

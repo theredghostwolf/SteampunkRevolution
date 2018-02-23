@@ -56,6 +56,8 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 	private float moveSpeed = 0.4F;
 	private int attackDamage = 5;
 	private int hp = 20;
+	private ItemStack spawnStack;
+	private String core = "transportcore";
 	private int fluidTransferRate = 100;
 	
 	private int tankCapacity = 8;
@@ -102,7 +104,7 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 		
 	}
 	
-	public EntityRobot(World worldIn, BlockPos home, int tankSize, int invSize, int usage, int hp) {
+	public EntityRobot(World worldIn, BlockPos home, int tankSize, int invSize, int usage, int hp, String core, ItemStack spawnstack) {
 		super(worldIn);
 		setupAI(worldIn);
 		
@@ -111,9 +113,11 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 			this.setHomePosAndDistance(home, this.getRange());
 		}	
 		
+		this.setSpawnStack(spawnstack);
 		this.ItemStackHandler = new ItemStackHandler(invSize) { };
-		this.operateCost = usage;
-		this.setHealth(hp);
+		this.setOperateCost(usage);
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(hp);;
+		this.setCore(core);
 }
 	
 	protected void setupAI (World worldIn) {
@@ -124,6 +128,14 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 		this.tasks.addTask(4, new EntityAIWander(this, 0.25));
 		this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 6));
 		this.tasks.addTask(6, new EntityAILookIdle(this));
+	}
+	
+	public void setSpawnStack (ItemStack c) {
+		this.spawnStack = c;
+	}
+	
+	public void setOperateCost (int c) {
+		this.operateCost = c;
 	}
 	
 	protected void initTank (int size) {
@@ -291,7 +303,14 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 	@Override
 	public void onDeath(DamageSource cause) {
 		this.dropItems();
+		dropMechanoid();
 		super.onDeath(cause);
+	}
+	
+	public void dropMechanoid () {
+		if (isServerWorld()) {
+			getEntityWorld().spawnEntity(new EntityItem(getEntityWorld(), this.posX, this.posY, this.posZ, this.spawnStack));
+		}
 	}
 	
 	public List<IItemHandler> getInventories (List<AccessPoint> list) {
@@ -389,8 +408,7 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 		if (entityIn instanceof EntityPlayer) {
 		EntityPlayer p = (EntityPlayer) entityIn;
 			if (p.getHeldItemMainhand().getItem() == ModItems.robotwrench) {
-				this.dropItems();
-				this.setDead();
+				this.setHealth(0);
 			}
 		}
 		return super.hitByEntity(entityIn);
@@ -432,6 +450,10 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 
 	public void setRange(int range) {
 		this.range = range;
+	}
+	
+	public void setCore (String core) {
+		this.core = core;
 	}
 
 	public int getFluidTransferRate() {
@@ -481,6 +503,8 @@ public class EntityRobot extends EntityCreature implements IEntityAdditionalSpaw
 		}
 		return null;
 	}
+	
+	
 	
 	
 }

@@ -4,16 +4,16 @@ import java.util.Locale;
 
 import net.minecraft.util.IStringSerializable;
 
-public enum EnumMetals implements IStringSerializable{
+public enum EnumMetals implements IStringSerializable {
 	
 	//ores
-	Copper(0,0xe56b51,1,1.5F, true),
+	Copper(0,0xce5b1c,1,1.5F, true),
 	Tin(1,0xcdcbc9,1,1.5F, true),
 	Lead(2,0xa3a6c3,1,1.5F, true),
 	Zinc(3,0xb8b3ad,1,1.5F, true),
 	Silver(4,0xe8e8e8,2,1.5F, true),
 	Titanium(5,0xb1c5c4,3,2F, true),
-	Tungsten(6,0x07005d,3,2F, true),
+	Tungsten(6,0x22253a,3,2F, true),
 	
 	//alloys
 	Brass(7,0xf9d352,1,1.5F),
@@ -50,6 +50,10 @@ public enum EnumMetals implements IStringSerializable{
 	@Override
 	public String getName() {
 		return this.toString().toLowerCase(Locale.ENGLISH);
+	}
+	
+	public String getNameCapital () {
+		return this.toString();
 	}
 	
 	public boolean hasOre () {
